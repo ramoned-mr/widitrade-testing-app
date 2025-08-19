@@ -1,0 +1,45 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-login {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-login:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.user-links a {
+    color: var(--primary);
+    font-size: 12px;
+}
+
+.user-links a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+@media (max-width: 1400px) {
+
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+
+}

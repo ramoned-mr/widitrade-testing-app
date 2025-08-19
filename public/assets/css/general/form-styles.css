@@ -1,0 +1,104 @@
+.form-control::placeholder {
+    color: var(--primary);
+}
+
+.form-outline .form-control ~ .form-notch div {
+    border: 1px solid var(--secondary);
+}
+
+.form-outline .form-control:focus ~ .form-notch .form-notch-leading {
+    border-color: var(--secondary);
+    box-shadow: -1px 0 0 0 var(--secondary), 0 1px 0 0 var(--secondary), 0 -1px 0 0 var(--secondary);
+}
+
+.form-outline .form-control:focus ~ .form-notch .form-notch-middle {
+    border-color: var(--secondary);
+    border-top-color: var(--secondary);
+    box-shadow: 0 1px 0 0 var(--secondary);
+    border-top: 1px solid transparent;
+}
+
+.form-outline .form-control:focus ~ .form-notch .form-notch-trailing {
+    border-color: var(--secondary);
+    box-shadow: 1px 0 0 0 var(--secondary), 0 -1px 0 0 var(--secondary), 0 1px 0 0 var(--secondary);
+}
+
+.form-outline .form-control:focus ~ .form-label {
+    color: var(--secondary);
+}
+
+.form-check-label {
+    color: var(--primary);
+}
+
+.form-check-label a {
+    color: var(--secondary);
+}
+
+.form-check-label a:hover, .txt-register a:hover, .txt-pass a:hover, .txt-login a:hover {
+    text-decoration: underline;
+}
+
+.form-check-input:checked:focus::before {
+    box-shadow: 0 0 0 13px var(--secondary);
+    transform: scale(1);
+    transition: box-shadow .2s, transform .2s;
+}
+
+.form-check-input[type="checkbox"]:checked:focus {
+    background-color: var(--secondary);
+}
+
+.form-check-input:checked:focus {
+    border-color: var(--secondary);
+}
+
+.form-check-input:hover::before {
+    opacity: .04;
+    box-shadow: 0 0 0 13px var(--quaternary);
+}
+
+.form-check-input[type="checkbox"]:checked {
+    background-image: none;
+    background-color: var(--secondary);
+}
+
+.form-check-input:checked {
+    border-color: var(--secondary);
+}
+
+.form-check-input:focus::before {
+    opacity: .12;
+    box-shadow: 0 0 0 13px var(--quaternary);
+}
+
+.form-check-input:checked {
+    border-color: var(--secondary);
+}
+
+.form-check-input[type="radio"]:checked::after {
+    border-color: var(--secondary) !important;
+    background-color: var(--secondary) !important;
+}
+
+.form-check-input:checked:focus::before {
+    box-shadow: 0 0 0 13px var(--secondary);
+}
+
+.form-check-input:checked:focus {
+    border-color: var(--secondary);
+}
+
+.form-outline {
+    --mdb-form-outline-select-notch-border-color: var(--secondary);
+}
+
+.form-select:focus {
+    border-color: var(--secondary);
+    box-shadow: inset 0px 0px 0px 1px var(--secondary);
+}
+
+.invalid-feedback {
+    font-size: 9px !important;
+    line-height: 5px;
+}

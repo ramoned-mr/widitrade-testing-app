@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Loading...{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="shortcut icon" href="https://iili.io/Fp6ibZ7.png">
+        <link rel="stylesheet" href="{{ asset('assets/libraries/MDBootstrap/css/mdb.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/libraries/Fontawesome/css/all.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/libraries/jQuery/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/general/fonts.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/admin/general-styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/general/form-styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/admin/crud/crud-styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/admin/crud/new-styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/admin/crud/show-styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/css/admin/crud/edit-styles.css') }}"/>
+    {% endblock %}
+    {% block javascripts %}
+        <script type="module" src="{{ asset('assets/libraries/MDBootstrap/js/mdb.es.min.js') }}"></script>
+        <script type="module" src="{{ asset('assets/libraries/MDBootstrap/js/mdb.initializer.js') }}"></script>
+        <script type="module" src="{{ asset('assets/libraries/Fontawesome/js/all.js') }}"></script>
+        <script src="{{ asset('assets/libraries/Chart/chart.umd.min.js') }}"></script>
+        <script src="{{ asset('assets/libraries/jQuery/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/libraries/jQuery/datatables.min.js') }}"></script>
+        <script src="{{ asset('assets/libraries/SweetAlert/sweetalert.js') }}"></script>
+        <script src="{{ asset('assets/js/general/resize.js') }}"></script>
+        <script>const lang = "{{ asset('assets/libraries/jQuery/es-ES.json') }}";</script>
+        <script src="{{ asset('assets/js/admin/datatables-initializer.js') }}"></script>
+        <script src="https://cdn.tiny.cloud/1/sho59z4aho65soy1tane6iorqwpq25hw77ntci44dgk81r8b/tinymce/7/tinymce.min.js"
+                referrerpolicy="origin"></script>
+        <script type="module" src="{{ asset('assets/js/admin/crud/new.js') }}"></script>
+        <script type="module" src="{{ asset('assets/js/admin/crud/show.js') }}"></script>
+        <script type="module" src="{{ asset('assets/js/admin/crud/edit.js') }}"></script>
+        <script type="module" src="{{ asset('assets/js/admin/crud/delete.js') }}"></script>
+        {% if not is_granted("ROLE_SUPERADMIN") %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                hideSuperAdminFunctions();
+            }, false);
+        </script>
+        {% endif %}
+    {% endblock %}
+</head>
+<body>
+
+{% include 'admin/components/header.html.twig' %}
+{% block body %}{% endblock %}
+{% include 'admin/components/footer.html.twig' %}
+</body>
+</html>

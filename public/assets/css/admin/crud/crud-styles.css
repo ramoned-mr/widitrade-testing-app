@@ -1,0 +1,235 @@
+.page {
+    min-height: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1%;
+}
+
+.page .card {
+    height: 90%;
+    width: 100%;
+}
+
+.card-header h1 {
+    margin-bottom: 0;
+}
+
+.table-responsive thead {
+    background-color: var(--primary);
+}
+
+.table-responsive thead th {
+    color: #fff;
+}
+
+.table-responsive thead th .dt-column-title {
+    width: 95%;
+    text-align: center;
+    display: block;
+}
+
+.table-responsive thead th .dt-column-order {
+    width: 5%;
+    display: block;
+}
+
+.table-responsive tbody td {
+    text-align: center !important;
+}
+
+.btn-group, .btn-group:hover, .btn-group .btn, .btn-group .btn:hover {
+    background: transparent;
+    box-shadow: none;
+}
+
+.btn {
+    transition: all .2s ease-in-out;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn-group .btn {
+    padding: 5px 15px;
+}
+
+.btn-group .btn .svg-inline--fa {
+    height: 15px !important;
+}
+
+.btn-add, .btn-add:hover, .send-to-all-btn, .send-to-all-btn:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-excel, .btn-excel:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+.entity-active {
+    color: #039803;
+    font-size: 14px;
+}
+
+.entity-inactive {
+    color: #ab0404;;
+    font-size: 14px;
+}
+
+.entity-active, .entity-inactive {
+    transition: all .2s ease-in-out;
+}
+
+.entity-active:hover, .entity-inactive:hover {
+    transform: scale(1.2);
+}
+
+.page-item.active .page-link {
+    background-color: var(--quaternary) !important;
+    color: var(--primary) !important;
+}
+
+.btn-close-modal {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.btn-close-modal:hover {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+.btn-save, .btn-save:hover {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn.show {
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--secondary) !important;
+    font-size: 14px;
+}
+
+.btn.show:hover {
+    text-decoration: underline;
+}
+
+.modalDispatcher {
+    display: none !important;
+}
+
+.campaign-send-link, .campaign-send-link:hover {
+    box-shadow: none !important;
+    background: transparent !important;
+    color: var(--secondary) !important;
+}
+
+.send-to-user-btn {
+    font-size: 9px;
+}
+
+#trackingEvolutionChart {
+    max-height: 180px;
+    width: 100%;
+}
+
+textarea {
+    height: 150px;
+}
+
+select option {
+    background-color: #fff;
+    color: var(--primary);
+    border-color: #fff;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+select option:hover {
+    background-color: var(--secondary) !important;
+    color: var(--primary) !important;
+}
+
+.fa-arrow-up {
+    color: #fff !important;
+}
+
+.fa-circle-check {
+    color: #039803;
+}
+
+.fa-times-circle, .fa-circle-xmark {
+    color: #ab0404;
+}
+
+.fa-eye {
+    color: #0090ff;
+}
+
+.fa-user-pen, .fa-user-edit, .fa-pen-to-square {
+    color: #e0ac02;
+}
+
+.fa-trash {
+    color: #ab0404;
+}
+
+.fa-right-from-bracket {
+    color: var(--primary);
+}
+
+.svg-inline--fa {
+    transition: all .2s ease-in-out;
+}
+
+.svg-inline--fa:hover {
+    transform: scale(1.2);
+}
+
+.tox-editor-header {
+    background-color: transparent !important;
+    background: transparent !important;
+}
+
+@media (max-width: 1600px) {
+    .dt-column-title {
+        font-size: 12px;
+    }
+
+    .entity-inactive {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 1450px) {
+    .page {
+        height: auto;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar-nav {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-item {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .modal-dialog {
+        max-width: 90% !important;
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 770px) {
+    .modal-dialog {
+        max-width: 100% !important;
+        width: 95% !important;
+    }
+}

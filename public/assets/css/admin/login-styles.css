@@ -1,0 +1,34 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-login {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-login:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.card-header {
+    background-color: var(--secondary);
+}
+
+.form-outline {
+    margin: 4% auto;
+}
+
+.card {
+    height: auto !important;
+    width: 75% !important;
+}
+
+@media (max-width: 1600px) {
+    .card {
+        width: 100% !important;
+    }
+}

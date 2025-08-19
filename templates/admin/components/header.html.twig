@@ -1,0 +1,40 @@
+{% set url = app.request.uri|split('/') %}
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand me-2" href="#">
+            <img src="https://iili.io/Fp6ibZ7.png"/>
+        </a>
+        <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarClient"
+                aria-controls="navbarClient" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarClient">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'users' in url ? 'active':'' }}" href="{{ path('admin_user_index') }}">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'contact' in url ? 'active':'' }}"
+                           href="{{ path('admin_contact_index') }}">Contactos</a>
+                    </li>
+                    {% if is_granted("ROLE_SUPERADMIN") %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ 'manager' in url ? 'active':'' }}"
+                               href="{{ path('admin_manager_index') }}">Administradores</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            <div class="right-info d-flex align-items-end">
+                {% if app.user %}
+                    <div class="logout">
+                        <div class="username">Hola, <i>{{ app.user.name }}</i></div>
+                        <a href="{{ path('admin_logout') }}"><i class="fa-solid fa-right-from-bracket"></i></a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

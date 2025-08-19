@@ -1,0 +1,159 @@
+<div class="modal fade" id="editAdminModal" tabindex="-1" aria-labelledby="editAdminModalLabel" aria-hidden="true"
+     data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable edit-entity-dialog">
+        <div class="modal-content edit-entity-content">
+            {{ form_start(form, {'attr': {'class': 'needs-validation edit-user-form','action': path('admin_manager_edit', {'id': admin.id})}}) }}
+            <div class="modal-header edit-entity-header">
+                <h5 class="modal-title" id="editAdminModalLabel">Editar Administrador</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body edit-entity-body">
+                {% if error_edit is not null %}
+                    <div class="alert alert-danger">
+                        {{ error_edit }}
+                    </div>
+                {% endif %}
+                <div class="d-row">
+                    {{ form_errors(form) }}
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.name, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'user_name'
+                                }
+                            }) }}
+                            {{ form_label(form.name, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'user_name'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.name) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.lastname, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'user_lastname'
+                                }
+                            }) }}
+                            {{ form_label(form.lastname, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'user_lastname'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.lastname) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.email, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'user_email'
+                                }
+                            }) }}
+                            {{ form_label(form.email, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'user_email'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.email) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.roles, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'contact_roles'
+                                }
+                            }) }}
+                            {{ form_label(form.roles, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'admin_roles'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.roles) }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.password, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'user_password',
+                                },
+                                'required': false
+                            }) }}
+                            {{ form_label(form.password, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'user_password'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 90px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <small class="form-text text-muted">Deja en blanco para mantener la contraseña actual</small>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.password) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-save" form="{{ form.vars.id }}">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editAdminModal" class="modalDispatcher"></div>

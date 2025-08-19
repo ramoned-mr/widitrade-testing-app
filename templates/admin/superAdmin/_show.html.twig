@@ -1,0 +1,66 @@
+<div class="modal fade show-entity-modal" id="showAdminModal" tabindex="-1" aria-labelledby="showEntityModalLabel"
+     aria-hidden="true" data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable show-entity-dialog">
+        <div class="modal-content show-entity-content">
+            <div class="modal-header show-entity-header">
+                <h5 class="modal-title show-entity-title" id="showEntityModalLabel">Detalle del Administrador</h5>
+                <button type="button" class="btn-close show-entity-close" data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body show-entity-body">
+                <div class="table-responsive show-entity-table-container">
+                    <table class="table table-bordered show-entity-table">
+                        <tbody>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">ID</th>
+                            <td class="show-entity-data-cell">{{ admin.id }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Nombre</th>
+                            <td class="show-entity-data-cell">{{ admin.name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Apellidos</th>
+                            <td class="show-entity-data-cell">{{ admin.lastname }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Email</th>
+                            <td class="show-entity-data-cell">{{ admin.email }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">UserIdentifier</th>
+                            <td class="show-entity-data-cell">{{ admin.userIdentifier }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Roles</th>
+                            <td class="show-entity-data-cell">{{ "ROLE_SUPERADMIN" in admin.roles ? "Súper Administrador" : "Administrador" }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Fecha de creación</th>
+                            <td class="show-entity-data-cell">{{ admin.createdAt ? admin.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Última actualización</th>
+                            <td class="show-entity-data-cell">{{ admin.updatedAt ? admin.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Status</th>
+                            <td class="show-entity-data-cell">
+                                <span class="badge {{ admin.isActive ? 'bg-success' : 'bg-danger' }} show-entity-badge">
+                                    {{ admin.isActive ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer show-entity-footer">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#showAdminModal" class="modalDispatcher"></div>

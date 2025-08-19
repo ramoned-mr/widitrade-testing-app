@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('admin_contact_delete', {'id': contact.id}) }}" class="d-inline delete-form">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ contact.id) }}">
+    <button type="submit" class="btn delete" title="Eliminar">
+        <i class="fas fa-trash"></i>{% if show_label is defined and show_label %} Eliminar{% endif %}
+    </button>
+</form>

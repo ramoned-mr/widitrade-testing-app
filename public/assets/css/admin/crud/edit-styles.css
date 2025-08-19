@@ -1,0 +1,84 @@
+.edit-entity-header {
+    background-color: var(--secondary);
+    color: var(--primary);
+    border-bottom: 1px solid var(--quaternary);
+}
+
+.edit-entity-title {
+    font-weight: var(--font-weight-medium);
+}
+
+.edit-entity-close {
+    color: var(--primary);
+}
+
+.edit-entity-content {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+.edit-entity-body {
+    padding: 1rem;
+}
+
+.edit-entity-table {
+    margin-bottom: 0;
+}
+
+.edit-entity-header-cell {
+    background-color: var(--primary);
+    color: white;
+    width: 30%;
+    padding: 0.75rem;
+}
+
+.edit-entity-data-cell {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+.edit-entity-badge {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.edit-entity-footer {
+    border-top: 1px solid var(--quaternary);
+    padding: 0.75rem;
+}
+
+.edit-entity-close-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.edit-entity-close-btn:hover {
+    background-color: var(--tertiary);
+}
+
+.edit-entity-modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-20px);
+}
+
+.edit-entity-modal.edit .modal-dialog {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .edit-entity-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+
+    .edit-entity-header-cell,
+    .edit-entity-data-cell {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .edit-entity-header-cell {
+        width: 40%;
+    }
+}

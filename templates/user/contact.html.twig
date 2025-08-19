@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/user/contact-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if app.flashes('error') is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    html: "{{ app.flashes('error')|join('<br>')|raw }}",
+                    showCloseButton: true,
+                    showConfirmButton: true,
+                    confirmButtonColor: "var(--secondary)",
+                    confirmButtonText: "¡Entendido!"
+                });
+            });
+        </script>
+    {% endif %}
+
+    {% if app.flashes('success') is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Mensaje recibido!',
+                    text: 'Gracias por contactarnos, te responderemos lo más pronto posible.',
+                    html: "{{ app.flashes('success')|join('<br>')|raw }}",
+                    showCloseButton: true,
+                    showConfirmButton: true,
+                    confirmButtonColor: "var(--secondary)",
+                    confirmButtonText: "¡Entendido!"
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page">
+        <div class="d-row justify-content-center">
+            <div class="col-11 col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Formulario de Contacto</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+
+                        {{ form_row(form._token) }}
+
+                        <div class="form-outline mb-3">
+                            <select id="{{ form.questionType.vars.id }}"
+                                    name="{{ form.questionType.vars.full_name }}" required
+                                    class="form-select {% if form.questionType.vars.errors|length > 0 %}is-invalid{% endif %}">
+                                <option value="">Seleccione un tipo de consulta</option>
+                                {% for choice in form.questionType.vars.choices %}
+                                    <option value="{{ choice.value }}"
+                                            {% if form.questionType.vars.value == choice.value %}selected{% endif %}>
+                                        {{ choice.label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.questionType.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.questionType.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <textarea id="{{ form.message.vars.id }}"
+                                      name="{{ form.message.vars.full_name }}" required rows="5"
+                                      class="form-control {% if form.message.vars.errors|length > 0 %}is-invalid{% endif %}">{{ form.message.vars.value }}</textarea>
+                            <label class="form-label" for="{{ form.message.vars.id }}">Mensaje</label>
+                            {% if form.message.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.message.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit">Enviar mensaje</button>
+                        </div>
+
+                        {{ form_end(form, {'render_rest': false}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+:root {
+    --primary: #333333;
+    --secondary: #98c46c;
+    --tertiary: rgba(51, 51, 51, 0.5);
+    --quaternary: rgba(152, 196, 108, 0.5);
+
+    --header-height: 120px;
+    --footer-height: 40px;
+
+    --font-family-base: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --font-weight-thin: 100;
+    --font-weight-xlight: 200;
+    --font-weight-light: 300;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+    --font-weight-ultra: 950;
+}
+
+html, body {
+    font-family: var(--font-family-base), sans-serif;
+    font-style: normal;
+    font-weight: var(--font-weight-regular);
+    padding-right: 0 !important;
+    height: 100vh;
+}
+
+.page {
+    min-height: calc(100vh - (calc(var(--header-height) + var(--footer-height))));
+}
+
+.d-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btn-close-modal {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-close-modal:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary);
+    opacity: 0.8;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--secondary) transparent;
+}

@@ -1,0 +1,128 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Panel de Administración - Iniciar sesión{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin/login-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    {% if error %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: "error",
+                    title: "¡Error de acceso!",
+                    text: "{{ error.messageKey|trans(error.messageData, 'security') }}",
+                    confirmButtonText: "¡Entendido!",
+                    confirmButtonColor: "var(--secondary)",
+                    showCloseButton: true,
+                });
+            });
+        </script>
+    {% endif %}
+
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let errorMessages = "{{ errors|join('<br>')|raw }}";
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error en el formulario!',
+                    html: errorMessages,
+                    showCloseButton: true,
+                    showConfirmButton: true,
+                    confirmButtonColor: "var(--secondary)",
+                    confirmButtonText: "¡Entendido!"
+                });
+            });
+        </script>
+    {% endif %}
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    let icon = "info";
+                    let title = "Información";
+
+                    {% if label == 'success' %}
+                    icon = "success";
+                    title = "¡Excelente!";
+                    {% elseif label == 'error' %}
+                    icon = "error";
+                    title = "¡Error!";
+                    {% elseif label == 'warning' %}
+                    icon = "warning";
+                    title = "¡Espera!";
+                    {% endif %}
+
+                    Swal.fire({
+                        icon: icon,
+                        title: title,
+                        text: "{{ message }}",
+                        confirmButtonText: "¡Entendido!",
+                        confirmButtonColor: "var(--secondary)",
+                        showCloseButton: true,
+                    });
+                });
+            </script>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page">
+        <div class="d-row justify-content-center">
+            <div class="col-11 col-md-6 col-lg-5 col-xl-3 d-flex justify-content-center">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="https://iili.io/Fp6ibZ7.png" class="img-fluid">
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="form-outline">
+                                <input type="email" id="{{ loginForm._username.vars.id }}"
+                                       name="{{ loginForm._username.vars.full_name }}" required
+                                       class="form-control {% if loginForm._username.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                       value="{{ loginForm._username.vars.value }}"/>
+                                <label class="form-label" for="{{ loginForm._username.vars.id }}">Correo
+                                    Electrónico</label>
+                                {% if loginForm._username.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback">
+                                        {% for error in loginForm._username.vars.errors %}
+                                            {{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-outline">
+                                <input type="password" id="{{ loginForm._password.vars.id }}"
+                                       name="{{ loginForm._password.vars.full_name }}" required
+                                       class="form-control {% if loginForm._password.vars.errors|length > 0 %}is-invalid{% endif %}"/>
+                                <label class="form-label" for="{{ loginForm._password.vars.id }}">Contraseña</label>
+                                {% if loginForm._password.vars.errors|length > 0 %}
+                                    <div class="invalid-feedback">
+                                        {% for error in loginForm._password.vars.errors %}
+                                            {{ error.message }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate_admin') }}">
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-login">Iniciar sesión</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

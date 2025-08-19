@@ -1,0 +1,50 @@
+{% set url = app.request.uri|split('/') %}
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand me-2" href="https://mdbgo.com/">
+            <img src="https://iili.io/Fp6ibZ7.png"/>
+        </a>
+
+        <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarClient"
+                aria-controls="navbarClient" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarClient">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'welcome' in url ? 'active':'' }}" href="{{ path('welcome') }}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'home' in url or 'modulo' in url ? 'active':'' }}"
+                           href="{{ path('home') }}">Módulos</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <div class="right-info d-flex align-items-end">
+                {% if app.user %}
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a data-mdb-dropdown-init class="nav-link dropdown-toggle d-flex align-items-center"
+                               href="#" id="userProfile" role="button" aria-expanded="false">
+                                <span class="username nav-link">
+                                    <i class="fa-solid fa-user"></i> Hola, <i>{{ app.user.name }}</i></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="userProfile">
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('user_profile') }}"><i
+                                                class="fa-solid fa-user"></i> Mi Perfil</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('user_logout') }}"><i
+                                                class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

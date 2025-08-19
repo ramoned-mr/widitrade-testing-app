@@ -1,0 +1,40 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-submit {
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.btn-submit:hover {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.disabled .form-label {
+    color: var(--primary);
+}
+
+
+@media (max-width: 1400px) {
+
+}
+
+@media (max-width: 1200px) {
+
+}
+
+@media (max-width: 992px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+
+}

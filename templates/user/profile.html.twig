@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/user/profile-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let errorMessages = "{{ errors|join('<br>')|raw }}";
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error en el formulario!',
+                    html: errorMessages,
+                    showCloseButton: true,
+                    showConfirmButton: true,
+                    confirmButtonColor: "var(--secondary)",
+                    confirmButtonText: "¡Entendido!"
+                });
+            });
+        </script>
+    {% endif %}
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    let icon = "info";
+                    let title = "Información";
+
+                    {% if label == 'success' %}
+                    icon = "success";
+                    title = "¡Excelente!";
+                    {% elseif label == 'error' %}
+                    icon = "error";
+                    title = "¡Error!";
+                    {% elseif label == 'warning' %}
+                    icon = "warning";
+                    title = "¡Espera!";
+                    {% endif %}
+
+                    Swal.fire({
+                        icon: icon,
+                        title: title,
+                        text: "{{ message }}",
+                        confirmButtonText: "¡Entendido!",
+                        confirmButtonColor: "var(--secondary)",
+                        showCloseButton: true,
+                    });
+                });
+            </script>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page">
+        <div class="d-row justify-content-center">
+            <div class="col-11 col-md-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Mi Perfil</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(profileForm) }}
+
+                        {{ form_row(profileForm._token) }}
+
+                        <div class="form-outline mb-3">
+                            <input type="text" id="{{ profileForm.name.vars.id }}"
+                                   name="{{ profileForm.name.vars.full_name }}" required
+                                   class="form-control {% if profileForm.name.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   value="{{ profileForm.name.vars.value }}"/>
+                            <label class="form-label" for="{{ profileForm.name.vars.id }}">Nombre</label>
+                            {% if profileForm.name.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in profileForm.name.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="text" id="{{ profileForm.lastname.vars.id }}"
+                                   name="{{ profileForm.lastname.vars.full_name }}" required
+                                   class="form-control {% if profileForm.lastname.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   value="{{ profileForm.lastname.vars.value }}"/>
+                            <label class="form-label" for="{{ profileForm.lastname.vars.id }}">Apellido</label>
+                            {% if profileForm.lastname.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in profileForm.lastname.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3 disabled">
+                            <input type="email" disabled
+                                   class="form-control"
+                                   value="{{ user.email }}"/>
+                            <label class="form-label">Email</label>
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="{{ profileForm.plainPassword.first.vars.id }}"
+                                   name="{{ profileForm.plainPassword.first.vars.full_name }}"
+                                   class="form-control {% if profileForm.plainPassword.first.vars.errors|length > 0 %}is-invalid{% endif %}"/>
+                            <label class="form-label" for="{{ profileForm.plainPassword.first.vars.id }}">
+                                Contraseña (dejar en blanco para no cambiarla)
+                            </label>
+                            {% if profileForm.plainPassword.first.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in profileForm.plainPassword.first.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="{{ profileForm.plainPassword.second.vars.id }}"
+                                   name="{{ profileForm.plainPassword.second.vars.full_name }}"
+                                   class="form-control {% if profileForm.plainPassword.second.vars.errors|length > 0 %}is-invalid{% endif %}"/>
+                            <label class="form-label" for="{{ profileForm.plainPassword.second.vars.id }}">
+                                Repetir contraseña
+                            </label>
+                            {% if profileForm.plainPassword.second.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in profileForm.plainPassword.second.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-submit">Guardar cambios</button>
+                        </div>
+
+                        {{ form_end(profileForm, {'render_rest': false}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

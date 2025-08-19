@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/user/register-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                let errorMessages = "{{ errors|join('<br>')|raw }}";
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error en el formulario!',
+                    html: errorMessages,
+                    showCloseButton: true,
+                    showConfirmButton: true,
+                    confirmButtonColor: "var(--secondary)",
+                    confirmButtonText: "¡Entendido!"
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page">
+        <div class="d-row justify-content-center">
+            <div class="col-11 col-md-6 col-lg-4 col-xl-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Crear cuenta</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(registrationForm) }}
+
+                        {{ form_row(registrationForm._token) }}
+
+                        <div class="form-outline mb-3">
+                            <input type="text" id="{{ registrationForm.name.vars.id }}"
+                                   name="{{ registrationForm.name.vars.full_name }}" required
+                                   class="form-control {% if registrationForm.name.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   value="{{ registrationForm.name.vars.value }}"/>
+                            <label class="form-label" for="{{ registrationForm.name.vars.id }}">Nombre</label>
+                            {% if registrationForm.name.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.name.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="text" id="{{ registrationForm.lastname.vars.id }}"
+                                   name="{{ registrationForm.lastname.vars.full_name }}" required
+                                   class="form-control {% if registrationForm.lastname.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   value="{{ registrationForm.lastname.vars.value }}"/>
+                            <label class="form-label" for="{{ registrationForm.lastname.vars.id }}">Apellido</label>
+                            {% if registrationForm.lastname.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.lastname.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="email" id="{{ registrationForm.email.vars.id }}"
+                                   name="{{ registrationForm.email.vars.full_name }}" required
+                                   class="form-control {% if registrationForm.email.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   value="{{ registrationForm.email.vars.value }}"/>
+                            <label class="form-label" for="{{ registrationForm.email.vars.id }}">Email</label>
+                            {% if registrationForm.email.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.email.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="{{ registrationForm.plainPassword.first.vars.id }}"
+                                   name="{{ registrationForm.plainPassword.first.vars.full_name }}" required
+                                   class="form-control {% if registrationForm.plainPassword.first.vars.errors|length > 0 %}is-invalid{% endif %}"/>
+                            <label class="form-label" for="{{ registrationForm.plainPassword.first.vars.id }}">Contraseña</label>
+                            {% if registrationForm.plainPassword.first.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.plainPassword.first.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-outline mb-3">
+                            <input type="password" id="{{ registrationForm.plainPassword.second.vars.id }}"
+                                   name="{{ registrationForm.plainPassword.second.vars.full_name }}" required
+                                   class="form-control {% if registrationForm.plainPassword.second.vars.errors|length > 0 %}is-invalid{% endif %}"/>
+                            <label class="form-label" for="{{ registrationForm.plainPassword.second.vars.id }}">Repetir
+                                contraseña</label>
+                            {% if registrationForm.plainPassword.second.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.plainPassword.second.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-check my-4">
+                            <input class="form-check-input {% if registrationForm.agreeTerms.vars.errors|length > 0 %}is-invalid{% endif %}"
+                                   type="checkbox" id="{{ registrationForm.agreeTerms.vars.id }}"
+                                   name="{{ registrationForm.agreeTerms.vars.full_name }}"
+                                   {% if registrationForm.agreeTerms.vars.checked %}checked="checked"{% endif %} />
+                            <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">
+                                He leído y acepto las
+                                <a href="#" data-mdb-toggle="modal" data-mdb-target="#condiciones-de-uso">
+                                    condiciones de uso
+                                </a>
+                                y
+                                <a href="#" data-mdb-toggle="modal" data-mdb-target="#politica-de-privacidad">
+                                    privacidad.
+                                </a>
+                            </label>
+                            {% if registrationForm.agreeTerms.vars.errors|length > 0 %}
+                                <div class="invalid-feedback">
+                                    {% for error in registrationForm.agreeTerms.vars.errors %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-register">Registrarse</button>
+                        </div>
+
+                        {{ form_end(registrationForm, {'render_rest': false}) }}
+                    </div>
+                </div>
+                <div class="user-links">
+                    <div class="mt-3 text-start">
+                        <a href="{{ path('user_login') }}">¿Ya tienes cuenta? Inicia sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,106 @@
+<div class="modal fade" id="editContactModal" tabindex="-1" aria-labelledby="editContactModalLabel" aria-hidden="true"
+     data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable edit-entity-dialog">
+        <div class="modal-content edit-entity-content">
+            {{ form_start(form, {'attr': {'class': 'needs-validation edit-contact-form','action': path('admin_contact_edit',{'id':contact.id})}}) }}
+            <div class="modal-header edit-entity-header">
+                <h5 class="modal-title" id="editContactModalLabel">Actualizar Contact</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body edit-entity-body">
+                {% if error_edit is not null %}
+                    <div class="alert alert-danger">
+                        {{ error_edit }}
+                    </div>
+                {% endif %}
+                <div class="d-row">
+                    {{ form_errors(form) }}
+
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.user, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'contact_edit_user'
+                                }
+                            }) }}
+                            {{ form_label(form.user, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'contact_edit_user'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.user) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.message, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'contact_edit_message'
+                                }
+                            }) }}
+                            {{ form_label(form.message, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'contact_edit_message'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.message) }}
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4 px-1">
+                        <div class="form-outline">
+                            {{ form_widget(form.questionType, {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'id': 'contact_edit_questionType'
+                                }
+                            }) }}
+                            {{ form_label(form.questionType, null, {
+                                'label_attr': {
+                                    'class': 'form-label',
+                                    'for': 'contact_edit_questionType'
+                                }
+                            }) }}
+                            <div class="form-notch">
+                                <div class="form-notch-leading"></div>
+                                <div class="form-notch-middle" style="width: 70px;"></div>
+                                <div class="form-notch-trailing"></div>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.questionType) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-save" form="{{ form.vars.id }}">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editContactModal" class="modalDispatcher"></div>

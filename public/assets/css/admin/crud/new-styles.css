@@ -1,0 +1,84 @@
+.new-entity-header {
+    background-color: var(--secondary);
+    color: var(--primary);
+    border-bottom: 1px solid var(--quaternary);
+}
+
+.new-entity-title {
+    font-weight: var(--font-weight-medium);
+}
+
+.new-entity-close {
+    color: var(--primary);
+}
+
+.new-entity-content {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+.new-entity-body {
+    padding: 1rem;
+}
+
+.new-entity-table {
+    margin-bottom: 0;
+}
+
+.new-entity-header-cell {
+    background-color: var(--primary);
+    color: white;
+    width: 30%;
+    padding: 0.75rem;
+}
+
+.new-entity-data-cell {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+.new-entity-badge {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+}
+
+.new-entity-footer {
+    border-top: 1px solid var(--quaternary);
+    padding: 0.75rem;
+}
+
+.new-entity-close-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.new-entity-close-btn:hover {
+    background-color: var(--tertiary);
+}
+
+.new-entity-modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-20px);
+}
+
+.new-entity-modal.new .modal-dialog {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .new-entity-dialog {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+
+    .new-entity-header-cell,
+    .new-entity-data-cell {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .new-entity-header-cell {
+        width: 40%;
+    }
+}

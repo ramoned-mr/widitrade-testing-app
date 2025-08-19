@@ -1,0 +1,58 @@
+security:
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+
+    app_admin_provider:
+      entity:
+        class: App\Entity\Admin
+        property: email
+
+  # Definición de la jerarquía de roles
+  role_hierarchy:
+    ROLE_ADMIN: ROLE_USER
+    ROLE_SUPERADMIN: ROLE_ADMIN
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    admin:
+      pattern: ^/admin
+      lazy: true
+      provider: app_admin_provider
+      custom_authenticator: App\Security\AdminAuthenticator
+      logout:
+        path: admin_logout
+        target: admin_login
+      entry_point: App\Security\AdminAuthenticator
+
+    main:
+      lazy: true
+      provider: app_user_provider
+      custom_authenticator: App\Security\UserAuthenticator
+      logout:
+        path: user_logout
+        target: user_login
+      entry_point: App\Security\UserAuthenticator
+
+  access_control:
+    - { path: ^/$, roles: PUBLIC_ACCESS }
+    - { path: ^/registro$, roles: PUBLIC_ACCESS }
+    - { path: ^/password/forgot$, roles: PUBLIC_ACCESS }
+    - { path: ^/password/reset, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/login$, roles: PUBLIC_ACCESS }
+    - { path: ^/emailtracking/open/, roles: PUBLIC_ACCESS }
+    - { path: ^/emailtracking/click/, roles: PUBLIC_ACCESS }
+    - { path: ^/emailtracking/view, roles: PUBLIC_ACCESS }
+    - { path: ^/verificar-certificado, roles: PUBLIC_ACCESS }
+    - { path: ^/certificados/public/, roles: PUBLIC_ACCESS }
+    - { path: ^/admin/manager, roles: ROLE_SUPERADMIN }
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/, roles: ROLE_USER }

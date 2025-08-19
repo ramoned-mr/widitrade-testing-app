@@ -1,0 +1,62 @@
+<div class="modal fade show-entity-modal" id="showContactModal" tabindex="-1" aria-labelledby="showEntityModalLabel"
+     aria-hidden="true" data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable show-entity-dialog">
+        <div class="modal-content show-entity-content">
+            <div class="modal-header show-entity-header">
+                <h5 class="modal-title show-entity-title" id="showEntityModalLabel">Detalle de Contactos</h5>
+                <button type="button" class="btn-close show-entity-close" data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body show-entity-body">
+                <div class="table-responsive show-entity-table-container">
+                    <table class="table table-bordered show-entity-table">
+                        <tbody>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">ID</th>
+                            <td class="show-entity-data-cell">{{ contact.id }}</td>
+                        </tr>
+                                                <tr>
+                            <th class="table-dark show-entity-header-cell">Usuario</th>
+                            <td class="show-entity-data-cell"><a href="{{ path('admin_user_show', {'id': contact.user.id}) }}" class="btn show" title="Ver" data-action="show-entity">{{ contact.user.fullname }}</a></td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Mensaje</th>
+                            <td class="show-entity-data-cell">{{ contact.message }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Tipo Consulta</th>
+                            <td class="show-entity-data-cell">{{ contact.questionType }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Fecha de creación</th>
+                            <td class="show-entity-data-cell">{{ contact.createdAt ? contact.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Última actualización</th>
+                            <td class="show-entity-data-cell">{{ contact.updatedAt ? contact.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                        </tr>
+                        
+                        
+                        <tr>
+                            <th class="table-dark show-entity-header-cell">Status</th>
+                            <td class="show-entity-data-cell">
+                                <span class="badge {{ contact.isActive ? 'bg-success' : 'bg-danger' }} show-entity-badge">
+                                    {{ contact.isActive ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </td>
+                        </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer show-entity-footer">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#showContactModal" class="modalDispatcher"></div>
