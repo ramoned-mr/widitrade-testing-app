@@ -20,38 +20,3 @@ services:
       $em: '@doctrine.orm.entity_manager'
       $projectDir: '%kernel.project_dir%'
     tags: [ 'console.command' ]
-
-  App\Service\Platform\Amazon\RatingGenerator:
-    arguments:
-      - '@logger'
-
-  App\Service\Platform\Amazon\BadgeGenerator:
-    arguments:
-      - '@App\Service\Platform\Amazon\RatingGenerator'
-
-  App\Service\Platform\Amazon\ProductValidator:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@validator'
-
-  App\Service\Platform\Amazon\ProductManager:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@App\Service\Platform\Amazon\ProductValidator'
-      - '@logger'
-      - '@slugger'
-
-  App\Service\Platform\Amazon\RatingGeneratorInterface: '@App\Service\Platform\Amazon\RatingGenerator'
-  App\Service\Platform\Amazon\BadgeGeneratorInterface: '@App\Service\Platform\Amazon\BadgeGenerator'
-  App\Service\Platform\Amazon\ProductValidatorInterface: '@App\Service\Platform\Amazon\ProductValidator'
-  App\Service\Platform\Amazon\ProductManagerInterface: '@App\Service\Platform\Amazon\ProductManager'
-
-  _instanceof:
-    App\Service\Platform\Amazon\RatingGeneratorInterface:
-      tags: [ 'app.amazon_service' ]
-    App\Service\Platform\Amazon\BadgeGeneratorInterface:
-      tags: [ 'app.amazon_service' ]
-    App\Service\Platform\Amazon\ProductValidatorInterface:
-      tags: [ 'app.amazon_service' ]
-    App\Service\Platform\Amazon\ProductManagerInterface:
-      tags: [ 'app.amazon_service' ]
