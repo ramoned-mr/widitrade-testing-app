@@ -31,7 +31,13 @@ services:
       $projectDir: '%kernel.project_dir%'
     tags: [ 'console.command' ]
 
-  # Inyección de dependencias para los Servicios de Amazon
+  App\Command\ExportAmazonProductsCommand\ExportAmazonProductsCommand:
+    arguments:
+      $productExporter: '@App\Service\Platform\Amazon\Exporter\AmazonProductExporterInterface'
+      $projectDir: '%kernel.project_dir%'
+    tags: [ 'console.command' ]
+
+  # Inyección de dependencias para los Servicios de Amazon - Importación
   App\Service\Platform\Amazon\Importer\AmazonProductImporterInterface:
     alias: App\Service\Platform\Amazon\Importer\AmazonProductImporter
 
@@ -42,6 +48,17 @@ services:
       $dataProcessor: '@App\Service\Platform\Amazon\Processor\AmazonDataProcessorInterface'
       $logger: '@logger'
 
+  # Inyección de dependencias para los Servicios de Amazon - Exportación
+  App\Service\Platform\Amazon\Exporter\AmazonProductExporterInterface:
+    alias: App\Service\Platform\Amazon\Exporter\AmazonProductExporter
+
+  App\Service\Platform\Amazon\Exporter\AmazonProductExporter:
+    arguments:
+      $productRepository: '@App\Repository\ProductRepository'
+      $dataProcessor: '@App\Service\Platform\Amazon\Processor\AmazonDataProcessorInterface'
+      $logger: '@logger'
+
+  # Inyección de dependencias para los Servicios de Amazon - Procesamiento de datos
   App\Service\Platform\Amazon\Processor\AmazonDataProcessorInterface:
     alias: App\Service\Platform\Amazon\Processor\AmazonDataProcessor
 
@@ -50,6 +67,7 @@ services:
       $transformer: '@App\Service\Platform\Amazon\Transformer\AmazonProductTransformerInterface'
       $logger: '@logger'
 
+  # Inyección de dependencias para los Servicios de Amazon - Transformación
   App\Service\Platform\Amazon\Transformer\AmazonProductTransformerInterface:
     alias: App\Service\Platform\Amazon\Transformer\AmazonProductTransformer
 
