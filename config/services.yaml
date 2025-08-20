@@ -4,19 +4,55 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+
   Symfony\Component\Routing\RequestContext:
     calls:
       - [ setBaseUrl, [ '' ] ]
       - [ setHost, [ '%env(APP_HOST)%' ] ]
       - [ setScheme, [ '%env(APP_SCHEME)%' ] ]
+
   App\:
     resource: '../src/'
     exclude:
       - '../src/DependencyInjection/'
       - '../src/Entity/'
       - '../src/Kernel.php'
+
+  # Inyección de dependencias para los Comandos.
   App\Command\MakeDCrudCommand\MakeDCrudCommand:
     arguments:
       $em: '@doctrine.orm.entity_manager'
       $projectDir: '%kernel.project_dir%'
     tags: [ 'console.command' ]
+
+  App\Command\ImportAmazonProductsCommand\ImportAmazonProductsCommand:
+    arguments:
+      $productImporter: '@App\Service\Platform\Amazon\Importer\AmazonProductImporterInterface'
+      $projectDir: '%kernel.project_dir%'
+    tags: [ 'console.command' ]
+
+  # Inyección de dependencias para los Servicios de Amazon
+  App\Service\Platform\Amazon\Importer\AmazonProductImporterInterface:
+    alias: App\Service\Platform\Amazon\Importer\AmazonProductImporter
+
+  App\Service\Platform\Amazon\Importer\AmazonProductImporter:
+    arguments:
+      $entityManager: '@doctrine.orm.entity_manager'
+      $productRepository: '@App\Repository\ProductRepository'
+      $dataProcessor: '@App\Service\Platform\Amazon\Processor\AmazonDataProcessorInterface'
+      $logger: '@logger'
+
+  App\Service\Platform\Amazon\Processor\AmazonDataProcessorInterface:
+    alias: App\Service\Platform\Amazon\Processor\AmazonDataProcessor
+
+  App\Service\Platform\Amazon\Processor\AmazonDataProcessor:
+    arguments:
+      $transformer: '@App\Service\Platform\Amazon\Transformer\AmazonProductTransformerInterface'
+      $logger: '@logger'
+
+  App\Service\Platform\Amazon\Transformer\AmazonProductTransformerInterface:
+    alias: App\Service\Platform\Amazon\Transformer\AmazonProductTransformer
+
+  App\Service\Platform\Amazon\Transformer\AmazonProductTransformer:
+    arguments:
+      $logger: '@logger'
