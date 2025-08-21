@@ -541,7 +541,7 @@ class MakeDCrudCommand extends Command
             }
         }
 
-        $templateFile = $this->commandDir . '/templates/home.html.twig.tpl';
+        $templateFile = $this->commandDir . '/templates/index.html.twig.tpl';
         if (!file_exists($templateFile)) {
             throw new \RuntimeException(sprintf('Template file "%s" not found.', $templateFile));
         }
@@ -562,7 +562,7 @@ class MakeDCrudCommand extends Command
         // Condicionales para isActive
         $content = $this->processConditionals($content, 'has_is_active', $hasIsActive);
 
-        file_put_contents("$dir/home.html.twig", $content);
+        file_put_contents("$dir/index.html.twig", $content);
     }
 
     private function generateNewTemplate(

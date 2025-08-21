@@ -1,0 +1,353 @@
+<div class="modal fade" id="newProductModal" tabindex="-1" aria-labelledby="newProductModalLabel" aria-hidden="true"
+     data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable new-entity-dialog">
+        <div class="modal-content new-entity-content" style="overflow-y: auto;">
+            {{ form_start(form, {'attr': {'class': 'needs-validation new-product-form','action': path('admin_product_new')}}) }}
+            <div class="modal-header new-entity-header">
+                <h5 class="modal-title" id="newProductModalLabel">Crear nuevo Producto</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body new-entity-body">
+                {% if error_new is not null %}
+                    <div class="alert alert-danger">
+                        {{ error_new }}
+                    </div>
+                {% endif %}
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="basic-tab" data-mdb-toggle="tab" data-mdb-target="#basic"
+                                type="button" role="tab" aria-controls="basic" aria-selected="true">
+                            <i class="fas fa-info-circle"></i> Información Básica
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="images-tab" data-mdb-toggle="tab" data-mdb-target="#images"
+                                type="button" role="tab" aria-controls="images" aria-selected="false">
+                            <i class="fas fa-images"></i> Imágenes
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="prices-tab" data-mdb-toggle="tab" data-mdb-target="#prices"
+                                type="button" role="tab" aria-controls="prices" aria-selected="false">
+                            <i class="fas fa-euro-sign"></i> Precios
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="rankings-tab" data-mdb-toggle="tab" data-mdb-target="#rankings"
+                                type="button" role="tab" aria-controls="rankings" aria-selected="false">
+                            <i class="fas fa-trophy"></i> Rankings
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="features-tab" data-mdb-toggle="tab" data-mdb-target="#features"
+                                type="button" role="tab" aria-controls="features" aria-selected="false">
+                            <i class="fas fa-list"></i> Características
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab content -->
+                <div class="tab-content mt-4" id="productTabsContent">
+
+                    <!-- Información Básica -->
+                    <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.asin, {'attr': {'class': 'form-control', 'id': 'product_asin'}}) }}
+                                    {{ form_label(form.asin, null, {'label_attr': {'class': 'form-label', 'for': 'product_asin'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.asin) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.brand, {'attr': {'class': 'form-control', 'id': 'product_brand'}}) }}
+                                    {{ form_label(form.brand, null, {'label_attr': {'class': 'form-label', 'for': 'product_brand'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.brand) }}</div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.title, {'attr': {'class': 'form-control', 'id': 'product_title'}}) }}
+                                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label', 'for': 'product_title'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.title) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.slug, {'attr': {'class': 'form-control', 'id': 'product_slug'}}) }}
+                                    {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label', 'for': 'product_slug'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.slug) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.manufacturer, {'attr': {'class': 'form-control', 'id': 'product_manufacturer'}}) }}
+                                    {{ form_label(form.manufacturer, null, {'label_attr': {'class': 'form-label', 'for': 'product_manufacturer'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.manufacturer) }}</div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.amazonUrl, {'attr': {'class': 'form-control', 'id': 'product_amazonUrl'}}) }}
+                                    {{ form_label(form.amazonUrl, null, {'label_attr': {'class': 'form-label', 'for': 'product_amazonUrl'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.amazonUrl) }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imágenes -->
+                    <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-images"></i> Imágenes del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-image-btn">
+                                <i class="fas fa-plus"></i> Agregar Imagen
+                            </button>
+                            <div id="images-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Precios -->
+                    <div class="tab-pane fade" id="prices" role="tabpanel" aria-labelledby="prices-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-euro-sign"></i> Precios del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-price-btn">
+                                <i class="fas fa-plus"></i> Agregar Precio
+                            </button>
+                            <div id="prices-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Rankings -->
+                    <div class="tab-pane fade" id="rankings" role="tabpanel" aria-labelledby="rankings-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-trophy"></i> Rankings del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-ranking-btn">
+                                <i class="fas fa-plus"></i> Agregar Ranking
+                            </button>
+                            <div id="rankings-container"></div>
+                        </div>
+                    </div>
+
+                    <!-- Características -->
+                    <div class="tab-pane fade" id="features" role="tabpanel" aria-labelledby="features-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-list"></i> Características del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-feature-btn">
+                                <i class="fas fa-plus"></i> Agregar Característica
+                            </button>
+                            <div id="features-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-save" form="{{ form.vars.id }}">
+                    <i class="fas fa-save"></i> Guardar Producto
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<!-- Templates Hidden -->
+<script type="text/template" id="image-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="image">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <div class="form-outline">
+                    <input type="url" class="form-control" name="images[__INDEX__][url]"
+                           id="image_url___INDEX__" placeholder="https://example.com/imagen.jpg">
+                    <label class="form-label" for="image_url___INDEX__">URL de la imagen</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][width]"
+                           id="image_width___INDEX__" min="1" value="500">
+                    <label class="form-label active" for="image_width___INDEX__">Ancho (px)</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][height]"
+                           id="image_height___INDEX__" min="1" value="500">
+                    <label class="form-label active" for="image_height___INDEX__">Alto (px)</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <select class="form-select" name="images[__INDEX__][type]" id="image_type___INDEX__">
+                    <option value="large">Grande (Large)</option>
+                    <option value="medium">Mediana (Medium)</option>
+                    <option value="small">Pequeña (Small)</option>
+                    <option value="thumbnail">Miniatura</option>
+                </select>
+                <label class="form-label active" for="image_type___INDEX__">Tipo de imagen</label>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][orderPosition]"
+                           id="image_order___INDEX__" min="0" value="0">
+                    <label class="form-label active" for="image_order___INDEX__">Posición/Orden</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="images[__INDEX__][altText]"
+                           id="image_alt___INDEX__" placeholder="Texto alternativo">
+                    <label class="form-label" for="image_alt___INDEX__">Texto alternativo</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 d-flex align-items-center">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="primaryImageIndex"
+                           value="__INDEX__" id="image_primary___INDEX__">
+                    <label class="form-check-label" for="image_primary___INDEX__">Imagen principal</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item"
+                style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="price-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="price">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][listingId]"
+                           id="price_listing___INDEX__" placeholder="listing_123456">
+                    <label class="form-label" for="price_listing___INDEX__">ID de Listado</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][amount]"
+                           id="price_amount___INDEX__" step="0.01" min="0">
+                    <label class="form-label" for="price_amount___INDEX__">Precio</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <select class="form-select" name="prices[__INDEX__][currency]" id="price_currency___INDEX__">
+                    <option value="EUR" selected>Euro (EUR)</option>
+                    <option value="USD">Dólar (USD)</option>
+                    <option value="GBP">Libra (GBP)</option>
+                </select>
+                <label class="form-label active" for="price_currency___INDEX__">Moneda</label>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][displayAmount]"
+                           id="price_display___INDEX__" placeholder="79,99 €">
+                    <label class="form-label" for="price_display___INDEX__">Precio para Mostrar</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][savingsDisplay]"
+                           id="price_savings_display___INDEX__" placeholder="10,00 € (20%)">
+                    <label class="form-label" for="price_savings_display___INDEX__">Descuento para Mostrar</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][savingsAmount]"
+                           id="price_savings_amount___INDEX__" step="0.01" min="0">
+                    <label class="form-label" for="price_savings_amount___INDEX__">Descuento (€)</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][savingsPercentage]"
+                           id="price_savings_percentage___INDEX__" min="0" max="100">
+                    <label class="form-label" for="price_savings_percentage___INDEX__">Porcentaje de Descuento</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 d-flex align-items-center">
+                <div class="row w-100">
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="prices[__INDEX__][isFreeShipping]"
+                                   value="1" id="price_free_shipping___INDEX__" checked>
+                            <label class="form-check-label" for="price_free_shipping___INDEX__">Envío Gratuito</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item"
+                style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="ranking-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="ranking">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][categoryId]"
+                           id="ranking_category_id___INDEX__" placeholder="1384102031">
+                    <label class="form-label" for="ranking_category_id___INDEX__">ID de Categoría</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][categoryName]"
+                           id="ranking_category_name___INDEX__" placeholder="Barras de sonido">
+                    <label class="form-label" for="ranking_category_name___INDEX__">Nombre de Categoría</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="rankings[__INDEX__][salesRank]"
+                           id="ranking_sales_rank___INDEX__" min="1" placeholder="1">
+                    <label class="form-label" for="ranking_sales_rank___INDEX__">Ranking de Ventas</label>
+                </div>
+            </div>
+            <div class="col-md-8 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][contextFreeName]"
+                           id="ranking_context___INDEX__" placeholder="Nombre de contexto libre">
+                    <label class="form-label" for="ranking_context___INDEX__">Nombre de Contexto</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 d-flex align-items-center">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="rankings[__INDEX__][isRoot]"
+                           value="1" id="ranking_is_root___INDEX__">
+                    <label class="form-check-label" for="ranking_is_root___INDEX__">Es Categoría Raíz</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item"
+                style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="feature-template">
+    <div class="collection-item d-flex align-items-center mb-2 p-2 border rounded" data-type="feature">
+        <div class="flex-grow-1 me-2">
+            <input type="text" class="form-control" name="features[__INDEX__]"
+                   id="feature___INDEX__" placeholder="Ingrese una característica">
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item ms-2">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#newProductModal" class="modalDispatcher"></div>

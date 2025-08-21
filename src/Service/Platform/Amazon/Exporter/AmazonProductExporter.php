@@ -161,7 +161,7 @@ class AmazonProductExporter implements AmazonProductExporterInterface
         // Convertir imágenes
         $images = [];
         foreach ($product->getImages() as $image) {
-            if ($image->getIsActive()) {
+            if ($image->isActive()) {
                 $images[] = [
                     'url' => $image->getUrl(),
                     'width' => $image->getWidth(),
@@ -172,16 +172,16 @@ class AmazonProductExporter implements AmazonProductExporterInterface
             }
         }
 
-        // Convertir precios
+        // Convertir precios - CORREGIDO
         $prices = [];
         foreach ($product->getPrices() as $price) {
-            if ($price->getIsActive()) {
+            if ($price->isActive()) {
                 $prices[] = [
                     'listing_id' => $price->getListingId(),
-                    'amount' => $price->getAmount(),
+                    'amount' => (float)$price->getAmount(), // Convertir a float
                     'currency' => $price->getCurrency(),
                     'display_amount' => $price->getDisplayAmount(),
-                    'savings_amount' => $price->getSavingsAmount(),
+                    'savings_amount' => $price->getSavingsAmount() ? (float)$price->getSavingsAmount() : null,
                     'savings_display' => $price->getSavingsDisplay(),
                     'savings_percentage' => $price->getSavingsPercentage(),
                     'is_free_shipping' => $price->getIsFreeShipping(),
@@ -193,7 +193,7 @@ class AmazonProductExporter implements AmazonProductExporterInterface
         // Convertir rankings
         $rankings = [];
         foreach ($product->getRankings() as $ranking) {
-            if ($ranking->getIsActive()) {
+            if ($ranking->isActive()) {
                 $rankings[] = [
                     'category_id' => $ranking->getCategoryId(),
                     'category_name' => $ranking->getCategoryName(),

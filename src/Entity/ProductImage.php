@@ -59,11 +59,6 @@ class ProductImage
         $this->type = 'large';
     }
 
-    #[ORM\PreUpdate]
-    public function setUpdatedAtValue(): void
-    {
-        $this->updatedAt = new \DateTime();
-    }
 
     public function getId(): ?int
     {
@@ -169,7 +164,7 @@ class ProductImage
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function isActive(): ?bool
     {
         return $this->isActive;
     }

@@ -1,0 +1,653 @@
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true"
+     data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable edit-entity-dialog">
+        <div class="modal-content edit-entity-content">
+            {{ form_start(form, {'attr': {'class': 'needs-validation edit-product-form','action': path('admin_product_edit',{'id':product.id})}}) }}
+            <div class="modal-header edit-entity-header">
+                <h5 class="modal-title" id="editProductModalLabel">Actualizar
+                    Producto: {{ product.title|slice(0,50) }}{% if product.title|length > 50 %}...{% endif %}</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body edit-entity-body">
+                {% if error_edit is not null %}
+                    <div class="alert alert-danger">
+                        {{ error_edit }}
+                    </div>
+                {% endif %}
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="editProductTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="edit-basic-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#edit-basic"
+                                type="button" role="tab" aria-controls="edit-basic" aria-selected="true">
+                            <i class="fas fa-info-circle"></i> Información Básica
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="edit-images-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#edit-images"
+                                type="button" role="tab" aria-controls="edit-images" aria-selected="false">
+                            <i class="fas fa-images"></i> Imágenes <span
+                                    class="badge bg-secondary">{{ product.images|length }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="edit-prices-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#edit-prices"
+                                type="button" role="tab" aria-controls="edit-prices" aria-selected="false">
+                            <i class="fas fa-euro-sign"></i> Precios <span
+                                    class="badge bg-secondary">{{ product.prices|length }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="edit-rankings-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#edit-rankings"
+                                type="button" role="tab" aria-controls="edit-rankings" aria-selected="false">
+                            <i class="fas fa-trophy"></i> Rankings <span
+                                    class="badge bg-secondary">{{ product.rankings|length }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="edit-features-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#edit-features"
+                                type="button" role="tab" aria-controls="edit-features" aria-selected="false">
+                            <i class="fas fa-list"></i> Características <span
+                                    class="badge bg-secondary">{{ product.features|length }}</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab content -->
+                <div class="tab-content mt-4" id="editProductTabsContent">
+
+                    <!-- Información Básica -->
+                    <div class="tab-pane fade show active" id="edit-basic" role="tabpanel"
+                         aria-labelledby="edit-basic-tab">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.asin, {'attr': {'class': 'form-control', 'id': 'product_edit_asin'}}) }}
+                                    {{ form_label(form.asin, null, {'label_attr': {'class': 'form-label active', 'for': 'product_edit_asin'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.asin) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.brand, {'attr': {'class': 'form-control', 'id': 'product_edit_brand'}}) }}
+                                    {{ form_label(form.brand, null, {'label_attr': {'class': 'form-label active', 'for': 'product_edit_brand'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.brand) }}</div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.title, {'attr': {'class': 'form-control', 'id': 'product_edit_title'}}) }}
+                                    {{ form_label(form.title, null, {'label_attr': {'class': 'form-label active', 'for': 'product_edit_title'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.title) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.slug, {'attr': {'class': 'form-control', 'id': 'product_edit_slug'}}) }}
+                                    {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label ' ~ (product.slug ? 'active' : ''), 'for': 'product_edit_slug'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.slug) }}</div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.manufacturer, {'attr': {'class': 'form-control', 'id': 'product_edit_manufacturer'}}) }}
+                                    {{ form_label(form.manufacturer, null, {'label_attr': {'class': 'form-label ' ~ (product.manufacturer ? 'active' : ''), 'for': 'product_edit_manufacturer'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.manufacturer) }}</div>
+                            </div>
+                            <div class="col-12 mb-4">
+                                <div class="form-outline">
+                                    {{ form_widget(form.amazonUrl, {'attr': {'class': 'form-control', 'id': 'product_edit_amazonUrl'}}) }}
+                                    {{ form_label(form.amazonUrl, null, {'label_attr': {'class': 'form-label active', 'for': 'product_edit_amazonUrl'}}) }}
+                                </div>
+                                <div class="invalid-feedback">{{ form_errors(form.amazonUrl) }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imágenes -->
+                    <div class="tab-pane fade" id="edit-images" role="tabpanel" aria-labelledby="edit-images-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-images"></i> Imágenes del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-image-btn">
+                                <i class="fas fa-plus"></i> Agregar Imagen
+                            </button>
+                            <div id="images-container">
+                                {% for image in product.images %}
+                                    <div class="collection-item border p-3 mb-3 position-relative" data-type="image">
+                                        <div class="row">
+                                            <div class="col-12 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="url" class="form-control"
+                                                           name="images[{{ loop.index0 }}][url]"
+                                                           id="image_url_{{ loop.index0 }}" value="{{ image.url }}">
+                                                    <label class="form-label active" for="image_url_{{ loop.index0 }}">URL
+                                                        de la imagen</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="images[{{ loop.index0 }}][width]"
+                                                           id="image_width_{{ loop.index0 }}" min="1"
+                                                           value="{{ image.width }}">
+                                                    <label class="form-label active"
+                                                           for="image_width_{{ loop.index0 }}">Ancho (px)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="images[{{ loop.index0 }}][height]"
+                                                           id="image_height_{{ loop.index0 }}" min="1"
+                                                           value="{{ image.height }}">
+                                                    <label class="form-label active"
+                                                           for="image_height_{{ loop.index0 }}">Alto (px)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <select class="form-select" name="images[{{ loop.index0 }}][type]"
+                                                        id="image_type_{{ loop.index0 }}">
+                                                    <option value="large" {{ image.type == 'large' ? 'selected' : '' }}>
+                                                        Grande (Large)
+                                                    </option>
+                                                    <option value="medium" {{ image.type == 'medium' ? 'selected' : '' }}>
+                                                        Mediana (Medium)
+                                                    </option>
+                                                    <option value="small" {{ image.type == 'small' ? 'selected' : '' }}>
+                                                        Pequeña (Small)
+                                                    </option>
+                                                    <option value="thumbnail" {{ image.type == 'thumbnail' ? 'selected' : '' }}>
+                                                        Miniatura
+                                                    </option>
+                                                </select>
+                                                <label class="form-label active" for="image_type_{{ loop.index0 }}">Tipo
+                                                    de imagen</label>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="images[{{ loop.index0 }}][orderPosition]"
+                                                           id="image_order_{{ loop.index0 }}" min="0"
+                                                           value="{{ image.orderPosition }}">
+                                                    <label class="form-label active"
+                                                           for="image_order_{{ loop.index0 }}">Posición/Orden</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="images[{{ loop.index0 }}][altText]"
+                                                           id="image_alt_{{ loop.index0 }}" value="{{ image.altText }}">
+                                                    <label class="form-label {{ image.altText ? 'active' : '' }}"
+                                                           for="image_alt_{{ loop.index0 }}">Texto alternativo</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3 d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input type="radio" class="form-check-input"
+                                                           name="primaryImageIndex"
+                                                           value="{{ loop.index0 }}"
+                                                           id="image_primary_{{ loop.index0 }}"
+                                                            {{ image.isPrimary ? 'checked' : '' }}>
+                                                    <label class="form-check-label"
+                                                           for="image_primary_{{ loop.index0 }}">Imagen
+                                                        principal</label>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="images[{{ loop.index0 }}][id]"
+                                                   value="{{ image.id }}">
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm delete-item"
+                                                style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Precios -->
+                    <div class="tab-pane fade" id="edit-prices" role="tabpanel" aria-labelledby="edit-prices-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-euro-sign"></i> Precios del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-price-btn">
+                                <i class="fas fa-plus"></i> Agregar Precio
+                            </button>
+                            <div id="prices-container">
+                                {% for price in product.prices %}
+                                    <div class="collection-item border p-3 mb-3 position-relative" data-type="price">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][listingId]"
+                                                           id="price_listing_{{ loop.index0 }}"
+                                                           value="{{ price.listingId }}">
+                                                    <label class="form-label active"
+                                                           for="price_listing_{{ loop.index0 }}">ID de Listado</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][amount]"
+                                                           id="price_amount_{{ loop.index0 }}" step="0.01" min="0"
+                                                           value="{{ price.amount }}">
+                                                    <label class="form-label active"
+                                                           for="price_amount_{{ loop.index0 }}">Precio</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <select class="form-select" name="prices[{{ loop.index0 }}][currency]"
+                                                        id="price_currency_{{ loop.index0 }}">
+                                                    <option value="EUR" {{ price.currency == 'EUR' ? 'selected' : '' }}>
+                                                        Euro (EUR)
+                                                    </option>
+                                                    <option value="USD" {{ price.currency == 'USD' ? 'selected' : '' }}>
+                                                        Dólar (USD)
+                                                    </option>
+                                                    <option value="GBP" {{ price.currency == 'GBP' ? 'selected' : '' }}>
+                                                        Libra (GBP)
+                                                    </option>
+                                                </select>
+                                                <label class="form-label active" for="price_currency_{{ loop.index0 }}">Moneda</label>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][displayAmount]"
+                                                           id="price_display_{{ loop.index0 }}"
+                                                           value="{{ price.displayAmount }}">
+                                                    <label class="form-label {{ price.displayAmount ? 'active' : '' }}"
+                                                           for="price_display_{{ loop.index0 }}">Precio para
+                                                        Mostrar</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][savingsDisplay]"
+                                                           id="price_savings_display_{{ loop.index0 }}"
+                                                           value="{{ price.savingsDisplay }}">
+                                                    <label class="form-label {{ price.savingsDisplay ? 'active' : '' }}"
+                                                           for="price_savings_display_{{ loop.index0 }}">Descuento para
+                                                        Mostrar</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][savingsAmount]"
+                                                           id="price_savings_amount_{{ loop.index0 }}" step="0.01"
+                                                           min="0" value="{{ price.savingsAmount }}">
+                                                    <label class="form-label {{ price.savingsAmount ? 'active' : '' }}"
+                                                           for="price_savings_amount_{{ loop.index0 }}">Descuento
+                                                        (€)</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="prices[{{ loop.index0 }}][savingsPercentage]"
+                                                           id="price_savings_percentage_{{ loop.index0 }}" min="0"
+                                                           max="100" value="{{ price.savingsPercentage }}">
+                                                    <label class="form-label {{ price.savingsPercentage ? 'active' : '' }}"
+                                                           for="price_savings_percentage_{{ loop.index0 }}">Porcentaje
+                                                        de Descuento</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3 d-flex align-items-center">
+                                                <div class="row w-100">
+                                                    <div class="col-6">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                   name="prices[{{ loop.index0 }}][isFreeShipping]"
+                                                                   value="1"
+                                                                   id="price_free_shipping_{{ loop.index0 }}" {{ price.isFreeShipping ? 'checked' : '' }}>
+                                                            <label class="form-check-label"
+                                                                   for="price_free_shipping_{{ loop.index0 }}">Envío
+                                                                Gratuito</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="prices[{{ loop.index0 }}][id]"
+                                                   value="{{ price.id }}">
+                                        </div>
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm position-absolute delete-item"
+                                                style="top: 10px; right: 10px;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rankings -->
+                    <div class="tab-pane fade" id="edit-rankings" role="tabpanel" aria-labelledby="edit-rankings-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-trophy"></i> Rankings del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-ranking-btn">
+                                <i class="fas fa-plus"></i> Agregar Ranking
+                            </button>
+                            <div id="rankings-container">
+                                {% for ranking in product.rankings %}
+                                    <div class="collection-item border p-3 mb-3 position-relative" data-type="ranking">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="rankings[{{ loop.index0 }}][categoryId]"
+                                                           id="ranking_category_id_{{ loop.index0 }}"
+                                                           value="{{ ranking.categoryId }}">
+                                                    <label class="form-label active"
+                                                           for="ranking_category_id_{{ loop.index0 }}">ID de
+                                                        Categoría</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="rankings[{{ loop.index0 }}][categoryName]"
+                                                           id="ranking_category_name_{{ loop.index0 }}"
+                                                           value="{{ ranking.categoryName }}">
+                                                    <label class="form-label active"
+                                                           for="ranking_category_name_{{ loop.index0 }}">Nombre de
+                                                        Categoría</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="number" class="form-control"
+                                                           name="rankings[{{ loop.index0 }}][salesRank]"
+                                                           id="ranking_sales_rank_{{ loop.index0 }}" min="1"
+                                                           value="{{ ranking.salesRank }}">
+                                                    <label class="form-label active"
+                                                           for="ranking_sales_rank_{{ loop.index0 }}">Ranking de
+                                                        Ventas</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 mb-3">
+                                                <div class="form-outline">
+                                                    <input type="text" class="form-control"
+                                                           name="rankings[{{ loop.index0 }}][contextFreeName]"
+                                                           id="ranking_context_{{ loop.index0 }}"
+                                                           value="{{ ranking.contextFreeName }}">
+                                                    <label class="form-label {{ ranking.contextFreeName ? 'active' : '' }}"
+                                                           for="ranking_context_{{ loop.index0 }}">Nombre de
+                                                        Contexto</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3 d-flex align-items-center">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           name="rankings[{{ loop.index0 }}][isRoot]"
+                                                           value="1"
+                                                           id="ranking_is_root_{{ loop.index0 }}" {{ ranking.isRoot ? 'checked' : '' }}>
+                                                    <label class="form-check-label"
+                                                           for="ranking_is_root_{{ loop.index0 }}">Es Categoría
+                                                        Raíz</label>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="rankings[{{ loop.index0 }}][id]"
+                                                   value="{{ ranking.id }}">
+                                        </div>
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm position-absolute delete-item"
+                                                style="top: 10px; right: 10px;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Características -->
+                    <div class="tab-pane fade" id="edit-features" role="tabpanel" aria-labelledby="edit-features-tab">
+                        <div class="collection-section">
+                            <h6 class="mb-3"><i class="fas fa-list"></i> Características del Producto</h6>
+                            <button type="button" class="btn btn-secondary btn-sm mb-3" id="add-feature-btn">
+                                <i class="fas fa-plus"></i> Agregar Característica
+                            </button>
+                            <div id="features-container">
+                                {% for feature in product.features %}
+                                    <div class="collection-item d-flex align-items-center mb-2 p-2 border rounded"
+                                         data-type="feature">
+                                        <div class="flex-grow-1 me-2">
+                                            <input type="text" class="form-control" name="features[{{ loop.index0 }}]"
+                                                   id="feature_{{ loop.index0 }}" value="{{ feature }}">
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm delete-item ms-2">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="submit" class="btn btn-save" form="{{ form.vars.id }}">
+                    <i class="fas fa-save"></i> Actualizar Producto
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<!-- Templates Hidden (igual que en new) -->
+<script type="text/template" id="image-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="image">
+        <div class="row">
+            <div class="col-12 mb-3">
+                <div class="form-outline">
+                    <input type="url" class="form-control" name="images[__INDEX__][url]"
+                           id="image_url___INDEX__" placeholder="https://example.com/imagen.jpg">
+                    <label class="form-label" for="image_url___INDEX__">URL de la imagen</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][width]"
+                           id="image_width___INDEX__" min="1" value="500">
+                    <label class="form-label active" for="image_width___INDEX__">Ancho (px)</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][height]"
+                           id="image_height___INDEX__" min="1" value="500">
+                    <label class="form-label active" for="image_height___INDEX__">Alto (px)</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <select class="form-select" name="images[__INDEX__][type]" id="image_type___INDEX__">
+                    <option value="large">Grande (Large)</option>
+                    <option value="medium">Mediana (Medium)</option>
+                    <option value="small">Pequeña (Small)</option>
+                    <option value="thumbnail">Miniatura</option>
+                </select>
+                <label class="form-label active" for="image_type___INDEX__">Tipo de imagen</label>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="images[__INDEX__][orderPosition]"
+                           id="image_order___INDEX__" min="0" value="0">
+                    <label class="form-label active" for="image_order___INDEX__">Posición/Orden</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="images[__INDEX__][altText]"
+                           id="image_alt___INDEX__" placeholder="Texto alternativo">
+                    <label class="form-label" for="image_alt___INDEX__">Texto alternativo</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3 d-flex align-items-center">
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="primaryImageIndex"
+                           value="__INDEX__" id="image_primary___INDEX__">
+                    <label class="form-check-label" for="image_primary___INDEX__">Imagen principal</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item"
+                style="position: absolute; top: 8px; right: 8px; z-index: 10;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="price-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="price">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][listingId]"
+                           id="price_listing___INDEX__" placeholder="listing_123456">
+                    <label class="form-label" for="price_listing___INDEX__">ID de Listado</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][amount]"
+                           id="price_amount___INDEX__" step="0.01" min="0">
+                    <label class="form-label" for="price_amount___INDEX__">Precio</label>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <select class="form-select" name="prices[__INDEX__][currency]" id="price_currency___INDEX__">
+                    <option value="EUR" selected>Euro (EUR)</option>
+                    <option value="USD">Dólar (USD)</option>
+                    <option value="GBP">Libra (GBP)</option>
+                </select>
+                <label class="form-label active" for="price_currency___INDEX__">Moneda</label>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][displayAmount]"
+                           id="price_display___INDEX__" placeholder="79,99 €">
+                    <label class="form-label" for="price_display___INDEX__">Precio para Mostrar</label>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="prices[__INDEX__][savingsDisplay]"
+                           id="price_savings_display___INDEX__" placeholder="10,00 € (20%)">
+                    <label class="form-label" for="price_savings_display___INDEX__">Descuento para Mostrar</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][savingsAmount]"
+                           id="price_savings_amount___INDEX__" step="0.01" min="0">
+                    <label class="form-label" for="price_savings_amount___INDEX__">Descuento (€)</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="prices[__INDEX__][savingsPercentage]"
+                           id="price_savings_percentage___INDEX__" min="0" max="100">
+                    <label class="form-label" for="price_savings_percentage___INDEX__">Porcentaje de Descuento</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 d-flex align-items-center">
+                <div class="row w-100">
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="prices[__INDEX__][isFreeShipping]"
+                                   value="1" id="price_free_shipping___INDEX__" checked>
+                            <label class="form-check-label" for="price_free_shipping___INDEX__">Envío Gratuito</label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="prices[__INDEX__][violatesMap]"
+                                   value="1" id="price_violates_map___INDEX__">
+                            <label class="form-check-label" for="price_violates_map___INDEX__">Viola MAP</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm position-absolute delete-item"
+                style="top: 10px; right: 10px;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="ranking-template">
+    <div class="collection-item border p-3 mb-3 position-relative" data-type="ranking">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][categoryId]"
+                           id="ranking_category_id___INDEX__" placeholder="1384102031">
+                    <label class="form-label" for="ranking_category_id___INDEX__">ID de Categoría</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][categoryName]"
+                           id="ranking_category_name___INDEX__" placeholder="Barras de sonido">
+                    <label class="form-label" for="ranking_category_name___INDEX__">Nombre de Categoría</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-outline">
+                    <input type="number" class="form-control" name="rankings[__INDEX__][salesRank]"
+                           id="ranking_sales_rank___INDEX__" min="1" placeholder="1">
+                    <label class="form-label" for="ranking_sales_rank___INDEX__">Ranking de Ventas</label>
+                </div>
+            </div>
+            <div class="col-md-8 mb-3">
+                <div class="form-outline">
+                    <input type="text" class="form-control" name="rankings[__INDEX__][contextFreeName]"
+                           id="ranking_context___INDEX__" placeholder="Nombre de contexto libre">
+                    <label class="form-label" for="ranking_context___INDEX__">Nombre de Contexto</label>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 d-flex align-items-center">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="rankings[__INDEX__][isRoot]"
+                           value="1" id="ranking_is_root___INDEX__">
+                    <label class="form-check-label" for="ranking_is_root___INDEX__">Es Categoría Raíz</label>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm position-absolute delete-item"
+                style="top: 10px; right: 10px;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<script type="text/template" id="feature-template">
+    <div class="collection-item d-flex align-items-center mb-2 p-2 border rounded" data-type="feature">
+        <div class="flex-grow-1 me-2">
+            <input type="text" class="form-control" name="features[__INDEX__]"
+                   id="feature___INDEX__" placeholder="Ingrese una característica">
+        </div>
+        <button type="button" class="btn btn-danger btn-sm delete-item ms-2">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</script>
+
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#editProductModal" class="modalDispatcher"></div>

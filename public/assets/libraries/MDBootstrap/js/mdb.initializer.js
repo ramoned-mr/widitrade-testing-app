@@ -10,7 +10,8 @@ import {
     ScrollSpy,
     Select,
     Datepicker,
-    Timepicker
+    Timepicker,
+    Carousel
 } from './mdb.es.min.js';
 
 /**
@@ -57,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Inicializar timepickers
     initTimepickers();
+
+    // Inicializar carruseles
+    initCarousels();
 });
 
 /**
@@ -231,7 +235,7 @@ function initAccordions() {
     // Luego, configurar los botones para que actúen sobre sus elementos colapsables
     safeInitialize('.accordion-button', buttonEl => {
         try {
-            buttonEl.addEventListener('click', function(event) {
+            buttonEl.addEventListener('click', function (event) {
                 event.preventDefault();
 
                 // Obtener el target (el elemento que debe colapsar/expandir)
@@ -268,7 +272,7 @@ function initAccordions() {
 
             const collapseItems = accordionEl.querySelectorAll('.accordion-collapse');
             collapseItems.forEach(item => {
-                item.addEventListener('show.bs.collapse', function() {
+                item.addEventListener('show.bs.collapse', function () {
                     // Cerrar otros elementos abiertos en el mismo acordeón
                     collapseItems.forEach(otherItem => {
                         if (otherItem !== item && otherItem._mdbCollapse &&
@@ -491,6 +495,55 @@ function initTimepickers() {
     // Inicializar timepickers
     safeInitialize('[data-mdb-timepicker-init]', timeEl => {
         new Timepicker(timeEl);
+    });
+}
+
+
+function initCarousels() {
+    // Inicializar carruseles con data-mdb-ride="carousel" (inicialización automática)
+    safeInitialize('[data-mdb-ride="carousel"]', carouselEl => {
+        try {
+            new Carousel(carouselEl);
+        } catch (error) {
+            console.warn('Error al inicializar carrusel:', error);
+        }
+    });
+
+    // Inicializar controles de carrusel (botones prev/next)
+    safeInitialize('[data-mdb-slide="prev"], [data-mdb-slide="next"]', controlEl => {
+        controlEl.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('data-mdb-target');
+            if (targetId) {
+                const carouselEl = document.querySelector(targetId);
+                if (carouselEl && carouselEl._mdbCarousel) {
+                    const action = this.getAttribute('data-mdb-slide');
+                    if (action === 'prev') {
+                        carouselEl._mdbCarousel.prev();
+                    } else if (action === 'next') {
+                        carouselEl._mdbCarousel.next();
+                    }
+                }
+            }
+        });
+    });
+
+    // Inicializar indicadores de carrusel
+    safeInitialize('[data-mdb-slide-to]', indicatorEl => {
+        indicatorEl.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('data-mdb-target');
+            const slideIndex = parseInt(this.getAttribute('data-mdb-slide-to'));
+
+            if (targetId && !isNaN(slideIndex)) {
+                const carouselEl = document.querySelector(targetId);
+                if (carouselEl && carouselEl._mdbCarousel) {
+                    carouselEl._mdbCarousel.to(slideIndex);
+                }
+            }
+        });
     });
 }
 

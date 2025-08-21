@@ -1,0 +1,253 @@
+<div class="modal fade show-entity-modal" id="showProductModal" tabindex="-1" aria-labelledby="showEntityModalLabel"
+     aria-hidden="true" data-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable show-entity-dialog">
+        <div class="modal-content show-entity-content">
+            <div class="modal-header show-entity-header">
+                <h5 class="modal-title show-entity-title" id="showEntityModalLabel">Detalles del
+                    Producto: {{ product.title|slice(0,50) }}{% if product.title|length > 50 %}...{% endif %}</h5>
+                <button type="button" class="btn-close show-entity-close" data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body show-entity-body">
+                <!-- Nav tabs para organizar la información -->
+                <ul class="nav nav-tabs mb-4" id="showProductTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="show-basic-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#show-basic"
+                                type="button" role="tab" aria-controls="show-basic" aria-selected="true">
+                            <i class="fas fa-info-circle"></i> Información Básica
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="show-images-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#show-images"
+                                type="button" role="tab" aria-controls="show-images" aria-selected="false">
+                            <i class="fas fa-images"></i> Imágenes <span
+                                    class="badge bg-secondary">{{ product.images|length }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="show-prices-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#show-prices"
+                                type="button" role="tab" aria-controls="show-prices" aria-selected="false">
+                            <i class="fas fa-euro-sign"></i> Precios <span
+                                    class="badge bg-secondary">{{ product.prices|length }}</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="show-rankings-tab" data-mdb-toggle="tab"
+                                data-mdb-target="#show-rankings"
+                                type="button" role="tab" aria-controls="show-rankings" aria-selected="false">
+                            <i class="fas fa-trophy"></i> Rankings <span
+                                    class="badge bg-secondary">{{ product.rankings|length }}</span>
+                        </button>
+                    </li>
+                    {% if product.features|length > 0 %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="show-features-tab" data-mdb-toggle="tab"
+                                    data-mdb-target="#show-features"
+                                    type="button" role="tab" aria-controls="show-features" aria-selected="false">
+                                <i class="fas fa-list"></i> Características <span
+                                        class="badge bg-secondary">{{ product.features|length }}</span>
+                            </button>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <!-- Tab content -->
+                <div class="tab-content" id="showProductTabsContent">
+                    <!-- Información Básica -->
+                    <div class="tab-pane fade show active" id="show-basic" role="tabpanel"
+                         aria-labelledby="show-basic-tab">
+                        <div class="table-responsive">
+                            <table class="table table-bordered show-entity-table">
+                                <tbody>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell" style="width: 200px;">ID</th>
+                                    <td class="show-entity-data-cell">{{ product.id }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">ASIN</th>
+                                    <td class="show-entity-data-cell">{{ product.asin }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Título</th>
+                                    <td class="show-entity-data-cell">{{ product.title }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Slug</th>
+                                    <td class="show-entity-data-cell">{{ product.slug ?: 'No definido' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Marca</th>
+                                    <td class="show-entity-data-cell">{{ product.brand }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Fabricante</th>
+                                    <td class="show-entity-data-cell">{{ product.manufacturer ?: 'No especificado' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">URL de Amazon</th>
+                                    <td class="show-entity-data-cell">
+                                        <a href="{{ product.amazonUrl }}" target="_blank" class="btn btn-sm btn-info">
+                                            <i class="fa-brands fa-amazon"></i> Ver en Amazon
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Fecha de creación</th>
+                                    <td class="show-entity-data-cell">{{ product.createdAt ? product.createdAt|date('d/m/Y H:i:s') : '' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Última actualización</th>
+                                    <td class="show-entity-data-cell">{{ product.updatedAt ? product.updatedAt|date('d/m/Y H:i:s') : '' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="table-dark show-entity-header-cell">Status</th>
+                                    <td class="show-entity-data-cell">
+                                        <span class="badge {{ product.isActive ? 'bg-success' : 'bg-danger' }} show-entity-badge">
+                                            {{ product.isActive ? 'Activo' : 'Inactivo' }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Imágenes -->
+                    <div class="tab-pane fade" id="show-images" role="tabpanel" aria-labelledby="show-images-tab">
+                        {% if product.images|length > 0 %}
+                            <div class="row">
+                                {% for image in product.images %}
+                                    <div class="col-md-6 col-lg-4 mb-4">
+                                        <div class="card">
+                                            <img src="{{ image.url }}" class="card-img-top"
+                                                 style="height: 200px; object-fit: cover;"
+                                                 alt="{{ image.altText ?: 'Imagen del producto' }}">
+                                            <div class="card-body">
+                                                <h6 class="card-title">
+                                                    {% if image.isPrimary %}
+                                                        <span class="badge bg-primary">Principal</span>
+                                                    {% endif %}
+                                                    {{ image.type|title }}
+                                                </h6>
+                                                <p class="card-text small">
+                                                    <strong>Dimensiones:</strong> {{ image.width }}x{{ image.height }}px<br>
+                                                    {% if image.orderPosition %}
+                                                        <strong>Orden:</strong> {{ image.orderPosition }}<br>
+                                                    {% endif %}
+                                                    {% if image.altText %}
+                                                        <strong>Alt text:</strong> {{ image.altText }}
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> Este producto no tiene imágenes registradas.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Precios -->
+                    <div class="tab-pane fade" id="show-prices" role="tabpanel" aria-labelledby="show-prices-tab">
+                        {% if product.prices|length > 0 %}
+                            <div class="row">
+                                {% for price in product.prices %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ price.displayAmount }}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">{{ price.listingId }}</h6>
+                                                <p class="card-text">
+                                                    <strong>Precio:</strong> {{ price.amount }} {{ price.currency }}<br>
+                                                    {% if price.savingsAmount %}
+                                                        <strong>Descuento:</strong> {{ price.savingsDisplay }}<br>
+                                                    {% endif %}
+                                                    <strong>Envío
+                                                        gratuito:</strong> {{ price.isFreeShipping ? 'Sí' : 'No' }}<br>
+                                                    <strong>Viola MAP:</strong> {{ price.violatesMap ? 'Sí' : 'No' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> Este producto no tiene precios registrados.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Rankings -->
+                    <div class="tab-pane fade" id="show-rankings" role="tabpanel" aria-labelledby="show-rankings-tab">
+                        {% if product.rankings|length > 0 %}
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Ranking</th>
+                                        <th>Categoría</th>
+                                        <th>ID Categoría</th>
+                                        <th>Contexto</th>
+                                        <th>Es Raíz</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for ranking in product.rankings %}
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-primary fs-6">#{{ ranking.salesRank }}</span>
+                                            </td>
+                                            <td>{{ ranking.categoryName }}</td>
+                                            <td><code>{{ ranking.categoryId }}</code></td>
+                                            <td>{{ ranking.contextFreeName ?: 'N/A' }}</td>
+                                            <td>
+                                                {% if ranking.isRoot %}
+                                                    <span class="badge bg-success">Sí</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">No</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i> Este producto no tiene rankings registrados.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Características -->
+                    {% if product.features|length > 0 %}
+                        <div class="tab-pane fade" id="show-features" role="tabpanel"
+                             aria-labelledby="show-features-tab">
+                            <div class="list-group">
+                                {% for feature in product.features %}
+                                    <div class="list-group-item">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        {{ feature }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer show-entity-footer">
+                <button type="button" class="btn btn-close-modal" data-mdb-dismiss="modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-mdb-ripple-init data-mdb-modal-init data-mdb-target="#showProductModal" class="modalDispatcher"></div>

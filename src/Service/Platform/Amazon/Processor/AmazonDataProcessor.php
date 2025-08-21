@@ -185,55 +185,68 @@ class AmazonDataProcessor implements AmazonDataProcessorInterface
             }
         }
 
-        // Actualizar información de precios y ofertas
-        if (isset($modifiedData['Offers']['Listings'][0])) {
-            $listing = &$modifiedData['Offers']['Listings'][0];
+        // Actualizar información de precios y ofertas - CORREGIDO
+        if (!empty($productData->prices) && isset($modifiedData['Offers']['Listings'])) {
+            $currentPrice = $productData->prices[0]; // Tomar el primer precio
 
-            // Actualizar información de envío
-            if (isset($listing['DeliveryInfo'])) {
-                $listing['DeliveryInfo']['IsFreeShippingEligible'] = true; // Siempre gratis para exportación
-            }
-
-            // Mantener el ID original de la listing
-            $originalListingId = $listing['Id'] ?? '';
-
-            // Reconstruir la listing con datos actualizados pero mantener ID original
-            $listing = [
-                'Id' => $originalListingId,
+            $modifiedData['Offers']['Listings'][0] = [
+                'Id' => $currentPrice['listing_id'],
                 'DeliveryInfo' => [
-                    'IsFreeShippingEligible' => true
+                    'IsFreeShippingEligible' => $currentPrice['is_free_shipping']
                 ],
                 'Price' => [
-                    'Amount' => 0, // Se actualizará con datos reales si están disponibles
-                    'Currency' => 'EUR',
-                    'DisplayAmount' => '0,00 €',
+                    'Amount' => $currentPrice['amount'], // Mantener el valor real
+                    'Currency' => $currentPrice['currency'],
+                    'DisplayAmount' => $currentPrice['display_amount'],
                     'Savings' => [
-                        'Amount' => 0,
-                        'Currency' => 'EUR',
-                        'DisplayAmount' => '0,00 € (0%)',
-                        'Percentage' => 0
+                        'Amount' => $currentPrice['savings_amount'] ?? 0,
+                        'Currency' => $currentPrice['currency'],
+                        'DisplayAmount' => $currentPrice['savings_display'] ?? '0,00 € (0%)',
+                        'Percentage' => $currentPrice['savings_percentage'] ?? 0
                     ]
                 ],
-                'ViolatesMAP' => false
+                'ViolatesMAP' => $currentPrice['violates_map']
             ];
         }
 
-        // Actualizar información de categoría y ranking
-        if (isset($modifiedData['BrowseNodeInfo']['BrowseNodes'][0])) {
-            $browseNode = &$modifiedData['BrowseNodeInfo']['BrowseNodes'][0];
+        // Actualizar información de imágenes - CORREGIDO
+        if (!empty($productData->images) && isset($modifiedData['Images']['Primary']['Large'])) {
+            $primaryImage = null;
 
-            // Mantener la estructura pero asegurar campos requeridos
-            $browseNode = [
-                'ContextFreeName' => $browseNode['ContextFreeName'] ?? 'Electrónica',
-                'DisplayName' => $browseNode['DisplayName'] ?? 'Barras de sonido',
-                'Id' => $browseNode['Id'] ?? '1384102031',
-                'IsRoot' => $browseNode['IsRoot'] ?? false,
-                'SalesRank' => $browseNode['SalesRank'] ?? 1
-            ];
+            // Buscar imagen principal
+            foreach ($productData->images as $image) {
+                if ($image['is_primary']) {
+                    $primaryImage = $image;
+                    break;
+                }
+            }
+
+            // Si no hay imagen principal, usar la primera
+            if (!$primaryImage && !empty($productData->images)) {
+                $primaryImage = $productData->images[0];
+            }
+
+            if ($primaryImage) {
+                $modifiedData['Images']['Primary']['Large'] = [
+                    'Height' => $primaryImage['height'],
+                    'URL' => $primaryImage['url'],
+                    'Width' => $primaryImage['width']
+                ];
+            }
         }
 
-        $modifiedData['Images'] = $originalData['Images'] ?? [];
-        //$modifiedData['__type'] = $originalData['__type'] ?? '';
+        // Actualizar información de categoría y ranking - CORREGIDO
+        if (!empty($productData->rankings) && isset($modifiedData['BrowseNodeInfo']['BrowseNodes'])) {
+            $ranking = $productData->rankings[0]; // Tomar el primer ranking
+
+            $modifiedData['BrowseNodeInfo']['BrowseNodes'][0] = [
+                'ContextFreeName' => $ranking['context_free_name'] ?? $ranking['category_name'],
+                'DisplayName' => $ranking['category_name'],
+                'Id' => $ranking['category_id'],
+                'IsRoot' => $ranking['is_root'],
+                'SalesRank' => $ranking['sales_rank']
+            ];
+        }
 
         return $modifiedData;
     }

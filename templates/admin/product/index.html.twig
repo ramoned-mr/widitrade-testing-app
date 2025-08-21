@@ -1,0 +1,130 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Productos{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/admin/product/product-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/admin/product/productCollectionsManager.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid page">
+        <div class="card">
+            <div class="card-header d-row justify-content-between align-items-center">
+                <div class="col-12 col-md-6 col-xxl-9 text-center text-md-start mb-3 mb-md-0">
+                    <h1>Listado de Productos</h1>
+                </div>
+                <div class="col-12 col-md-6 col-xxl-3">
+                    <div class="d-row">
+                        <div class="col-6 text-center text-md-end">
+                            <a href="{{ path('admin_product_new') }}" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Crear Producto
+                            </a>
+                        </div>
+                        <div class="col-6 text-center text-md-end">
+                            <a href="{{ path('admin_product_excel') }}" class="btn btn-excel">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tabla-products" class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imágenes</th>
+                            <th>Título</th>
+                            <th>Marca</th>
+                            <th>ASIN</th>
+                            <th>AmazonUrl</th>
+                            <th>Precio</th>
+                            <th>Ranking</th>
+                            <th>Creado</th>
+                            <th>Actualizado</th>
+                            <th>Status</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.id }}</td>
+                                <td>
+                                    {% if product.images|length > 1 %}
+                                        {{ include('admin/product/_productImagesCarousel.html.twig') }}
+                                    {% elseif product.images|length == 1 %}
+                                        <img src="{{ product.images[0].url }}"
+                                             class="product-image" alt="Imagen del producto"/>
+                                    {% else %}
+                                        <span class="no-data">Sin imágenes</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.title|slice(0,20) }}...</td>
+                                <td>{{ product.brand }}</td>
+                                <td>{{ product.asin }}</td>
+                                <td>
+                                    <a href="{{ product.amazonUrl }}" target="_blank" class="btn btn-rounded btn-info">
+                                        <i class="fa-brands fa-amazon"></i> Ver</a>
+                                </td>
+                                <td>
+                                    {% if product.prices|length > 0 %}
+                                        {{ product.prices[0].displayAmount }}
+                                    {% else %}
+                                        <span class="no-data">Sin precio</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if product.rankings|length > 0 %}
+                                        #{{ product.rankings[0].salesRank }}
+                                    {% else %}
+                                        <span class="no-data">Sin ranking</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ product.createdAt ? product.createdAt|date('d/m/Y H:i') : '' }}</td>
+                                <td>{{ product.updatedAt ? product.updatedAt|date('d/m/Y H:i') : '' }}</td>
+                                <td>
+                                    {% if product.isActive %}
+                                        <a href="{{ path('admin_product_set_status', {'id': product.id}) }}"
+                                           class="entity-active">
+                                            <i class="fa-solid fa-circle-check"></i> Activo
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('admin_product_set_status', {'id': product.id}) }}"
+                                           class="entity-inactive">
+                                            <i class="fa-solid fa-circle-xmark"></i> Inactivo
+                                        </a>
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <a href="{{ path('admin_product_show', {'id': product.id}) }}" class="btn show"
+                                           title="Ver" data-action="show-entity">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="btn edit"
+                                           title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        {{ include('admin/product/_delete.html.twig', {'product': product, 'show_label': false}) }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalContainer"></div>
+{% endblock %}

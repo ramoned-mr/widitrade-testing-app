@@ -55,12 +55,6 @@ class ProductRanking
         $this->rankingDate = new \DateTime();
     }
 
-    #[ORM\PreUpdate]
-    public function setUpdatedAtValue(): void
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -154,7 +148,7 @@ class ProductRanking
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function isActive(): ?bool
     {
         return $this->isActive;
     }

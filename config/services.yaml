@@ -74,3 +74,11 @@ services:
   App\Service\Platform\Amazon\Transformer\AmazonProductTransformer:
     arguments:
       $logger: '@logger'
+
+  # Inyección de dependencias para los Servicios de Admin - Productos
+  App\Service\Admin\Product\ProductCollectionProcessorInterface:
+    alias: App\Service\Admin\Product\ProductCollectionProcessor
+
+  App\Service\Admin\Product\ProductCollectionProcessor:
+    arguments:
+      $entityManager: '@doctrine.orm.entity_manager'

@@ -14,11 +14,8 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 {% if app.user %}
                     <li class="nav-item">
-                        <a class="nav-link {{ 'welcome' in url ? 'active':'' }}" href="{{ path('welcome') }}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ 'home' in url or 'modulo' in url ? 'active':'' }}"
-                           href="{{ path('home') }}">Módulos</a>
+                        <a class="nav-link {{ 'home' in url ? 'active':'' }}"
+                           href="{{ path('home') }}">Inicio</a>
                     </li>
                 {% endif %}
             </ul>
