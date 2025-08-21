@@ -1,16 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home Amazon{% endblock %}
+{% block title %}Las {{ products|length }} Mejores Barras De Sonido En España{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/css/platform/amazon/home-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/platform/amazon/ranking-styles.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/platform/amazon/ranking-accordion.js') }}"></script>
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid page">
-        <div class="d-row justify-content-center">
-            <h1 class="text-center">HOME</h1>
+    <div class="container-fluid ranking-page">
+        <div class="ranking-header">
+            <h1 class="ranking-title">Las {{ products|length }} Mejores Barras De Sonido En España</h1>
+            {% if category_description is defined %}
+                <p class="ranking-description">{{ category_description }}</p>
+            {% endif %}
+            <div class="ranking-divider"></div>
         </div>
+
+        {% if products|length > 0 %}
+            <div class="products-ranking">
+                <div class="ranking-grid">
+                    {% for product in products %}
+                        {% include 'platform/amazon/_product_card.html.twig' with {
+                            'product': product,
+                            'index': loop.index
+                        } %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-search fa-3x"></i>
+                </div>
+                <h3 class="empty-state-title">No hay productos disponibles</h3>
+                <p class="empty-state-message">
+                    No se encontraron productos en esta categoría en este momento.
+                    Por favor, inténtalo más tarde.
+                </p>
+                <a href="{{ path('home') }}" class="btn btn-primary mt-3">
+                    <i class="fas fa-home"></i> Volver al inicio
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

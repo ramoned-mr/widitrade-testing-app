@@ -1,1 +1,0 @@
-# widitrade-testing-app

@@ -75,10 +75,37 @@ services:
     arguments:
       $logger: '@logger'
 
-  # Inyección de dependencias para los Servicios de Admin - Productos
-  App\Service\Admin\Product\ProductCollectionProcessorInterface:
-    alias: App\Service\Admin\Product\ProductCollectionProcessor
+  # ===== NUEVOS SERVICIOS FRONTEND =====
 
-  App\Service\Admin\Product\ProductCollectionProcessor:
+  # Servicios Frontend - Interfaces y implementaciones
+  App\Service\Platform\Amazon\Frontend\ProductQueryServiceInterface:
+    alias: App\Service\Platform\Amazon\Frontend\ProductQueryService
+
+  App\Service\Platform\Amazon\Frontend\ProductQueryService:
     arguments:
-      $entityManager: '@doctrine.orm.entity_manager'
+      $productRepository: '@App\Repository\ProductRepository'
+      $logger: '@logger'
+
+  App\Service\Platform\Amazon\Frontend\ScoreGeneratorServiceInterface:
+    alias: App\Service\Platform\Amazon\Frontend\ScoreGeneratorService
+
+  App\Service\Platform\Amazon\Frontend\ScoreGeneratorService:
+    arguments:
+      $logger: '@logger'
+
+  App\Service\Platform\Amazon\Frontend\ProductFormatterServiceInterface:
+    alias: App\Service\Platform\Amazon\Frontend\ProductFormatterService
+
+  App\Service\Platform\Amazon\Frontend\ProductFormatterService:
+    arguments:
+      $logger: '@logger'
+
+  App\Service\Platform\Amazon\Frontend\RankingFacadeServiceInterface:
+    alias: App\Service\Platform\Amazon\Frontend\RankingFacadeService
+
+  App\Service\Platform\Amazon\Frontend\RankingFacadeService:
+    arguments:
+      $productQueryService: '@App\Service\Platform\Amazon\Frontend\ProductQueryServiceInterface'
+      $scoreGeneratorService: '@App\Service\Platform\Amazon\Frontend\ScoreGeneratorServiceInterface'
+      $productFormatterService: '@App\Service\Platform\Amazon\Frontend\ProductFormatterServiceInterface'
+      $logger: '@logger'

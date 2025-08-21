@@ -1,0 +1,127 @@
+<div class="product-card" data-product-index="{{ index }}">
+    {% if product.special_badge is defined and product.special_badge %}
+        <div class="special-badge {{ product.position == 1 ? 'badge-best' : 'badge-value' }}">
+            {{ product.special_badge }}
+        </div>
+    {% endif %}
+
+    <div class="product-row">
+        <div class="product-col product-col-position">
+            <div class="position-number">#{{ product.position }}</div>
+        </div>
+
+        <div class="product-col product-col-image">
+            <img src="{{ product.image.url }}"
+                 alt="{{ product.image.alt }}"
+                 class="product-image"
+                 loading="lazy">
+        </div>
+
+        <div class="product-col product-col-rating">
+            <div class="rating-score">{{ product.rating.score }}</div>
+            <div class="rating-stars">
+                {% set fullStars = product.rating.stars|round(0, 'floor') %}
+                {% set hasHalfStar = (product.rating.stars - fullStars) >= 0.5 %}
+
+                {% for i in 1..5 %}
+                    {% if i <= fullStars %}
+                        <i class="fas fa-star"></i>
+                    {% elseif i == (fullStars + 1) and hasHalfStar %}
+                        <i class="fas fa-star-half-alt"></i>
+                    {% else %}
+                        <i class="far fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="rating-label">"{{ product.rating.label }}"</div>
+        </div>
+
+        <div class="product-col product-col-details">
+            <h3 class="product-title">{{ product.title }}</h3>
+            <div class="product-brand">{{ product.brand }}</div>
+
+            <div class="product-pricing">
+                {% if product.price.discount_percentage %}
+                    <span class="price-discount">{{ product.price.discount_percentage }}% Descuento</span>
+                {% endif %}
+
+                {% if product.price.free_shipping %}
+                    <span class="shipping-badge">Envío gratis</span>
+                {% endif %}
+            </div>
+
+            <button type="button"
+                    class="btn-show-more"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#features-{{ product.position }}"
+                    aria-expanded="false">
+                <span class="show-more-text">Mostrar más</span>
+                <span class="show-less-text" style="display: none;">Mostrar menos</span>
+                <i class="fas fa-chevron-down expand-icon"></i>
+            </button>
+        </div>
+
+        <div class="product-col product-col-purchase">
+            <a href="{{ product.amazon_url }}"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-buy-amazon">
+                <span class="buy-text">Comprar ahora</span>
+            </a>
+            <div class="amazon-logo">
+                <img src="{{ asset('assets/img/logos/amazon.jpg') }}" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <div class="collapse product-features-collapse" id="features-{{ product.position }}">
+        <div class="product-features-content">
+            {% if product.features.visible|length > 0 or product.features.hidden|length > 0 %}
+                <div class="features-list">
+                    {% for feature in product.features.visible %}
+                        <div class="feature-item">
+                            <i class="fas fa-circle feature-icon"></i>
+                            <span class="feature-text">{{ feature }}</span>
+                        </div>
+                    {% endfor %}
+
+                    {% for feature in product.features.hidden %}
+                        <div class="feature-item">
+                            <i class="fas fa-circle feature-icon"></i>
+                            <span class="feature-text">{{ feature }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-features">
+                    <p class="text-muted">No hay características detalladas disponibles para este producto.</p>
+                </div>
+            {% endif %}
+
+            <div class="additional-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Categoría:</strong> {{ product.ranking_info.category_display }}
+                    </div>
+                    {% if product.ranking_info.sales_rank %}
+                        <div class="info-item">
+                            <strong>Ranking en categoría:</strong> #{{ product.ranking_info.sales_rank }}
+                        </div>
+                    {% endif %}
+                    <div class="info-item">
+                        <strong>ASIN:</strong> {{ product.asin }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="secondary-purchase-action">
+                <a href="{{ product.amazon_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn-buy-secondary">
+                    <i class="fab fa-amazon"></i> Ver en Amazon
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
